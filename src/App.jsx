@@ -81,7 +81,7 @@ const circuitBlueprints = [
 const satelliteLinks = [
   { label: 'qubit.locker', href: 'https://qubit.locker' },
   { label: 'quantumpepes.xyz', href: 'https://quantumpepes.xyz' },
-  { label: 'riskforge.ai', href: 'https://riskforge.ai' },
+  { label: 'riskforgeai.com', href: 'https://riskforgeai.com' },
   { label: 'quantumaibusiness.com', href: 'https://quantumaibusiness.com' },
   { label: 'quantumbusinessstrategies.com', href: 'https://quantumbusinessstrategies.com' },
   { label: 'quantumreality.tech', href: 'https://quantumreality.tech' },
