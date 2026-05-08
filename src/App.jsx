@@ -328,7 +328,7 @@ function InfoSea() {
   return (
     <group rotation={[-1.18, 0, 0]} position={[0, -2.1, -2.35]}>
       <mesh ref={mesh} material={material}>
-        <planeGeometry args={[24, 18, 150, 108]} />
+        <planeGeometry args={[24, 18, 96, 72]} />
       </mesh>
       <mesh ref={glow} position={[0, 0, -0.42]}>
         <torusGeometry args={[5.3, 0.018, 8, 240]} />
@@ -345,12 +345,12 @@ function InfoSea() {
 function DataNodes() {
   const group = useRef();
   const particles = useMemo(() => {
-    return Array.from({ length: 58 }, (_, index) => ({
+    return Array.from({ length: 32 }, (_, index) => ({
       id: index,
       position: [
-        (Math.random() - 0.5) * 16,
-        (Math.random() - 0.52) * 9,
-        (Math.random() - 0.5) * 7,
+        (Math.random() - 0.5) * 13,
+        (Math.random() - 0.52) * 7.4,
+        (Math.random() - 0.5) * 5.6,
       ],
       scale: 0.025 + Math.random() * 0.075,
       stretch: [0.7 + Math.random() * 1.6, 0.55 + Math.random() * 1.8, 0.7 + Math.random() * 1.6],
@@ -491,7 +491,7 @@ function ConsciousnessCore() {
     <group position={[0, 0.15, -1.15]}>
       <primitive object={veinSystem} ref={veins} />
       <mesh ref={core} material={material}>
-        <sphereGeometry args={[1.38, 64, 64]} />
+        <sphereGeometry args={[1.38, 48, 48]} />
       </mesh>
       <mesh rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[1.88, 0.018, 8, 180]} />
@@ -518,8 +518,8 @@ function BioHelix() {
   const helix = useMemo(() => {
     const makeStrand = (offset) => {
       const points = [];
-      for (let i = 0; i < 180; i += 1) {
-        const t = i / 179;
+      for (let i = 0; i < 132; i += 1) {
+        const t = i / 131;
         const angle = t * Math.PI * 9 + offset;
         points.push(
           new THREE.Vector3(
@@ -533,8 +533,8 @@ function BioHelix() {
     };
 
     const rungs = [];
-    for (let i = 0; i < 44; i += 1) {
-      const t = i / 43;
+    for (let i = 0; i < 32; i += 1) {
+      const t = i / 31;
       const angle = t * Math.PI * 9;
       rungs.push(
         new THREE.BufferGeometry().setFromPoints([
@@ -736,7 +736,7 @@ function GlitchPlanes() {
   const group = useRef();
   const planes = useMemo(
     () =>
-      Array.from({ length: 22 }, (_, index) => ({
+      Array.from({ length: 14 }, (_, index) => ({
         id: index,
         position: [
           (Math.random() - 0.5) * 13.5,
@@ -785,7 +785,7 @@ function Scene() {
       <pointLight position={[-4, 3, 4]} color="#55eaff" intensity={16} distance={16} />
       <pointLight position={[5, -2, 2]} color="#ff58be" intensity={13} distance={14} />
       <pointLight position={[0, 4, -3]} color="#ff9d4c" intensity={7} distance={12} />
-      <Sparkles count={92} speed={0.18} size={1.15} scale={[17, 9, 10]} color="#b8fbff" opacity={0.28} />
+      <Sparkles count={54} speed={0.16} size={1.05} scale={[15, 8, 8]} color="#b8fbff" opacity={0.24} />
       <InfoSea />
       <ConsciousnessCore />
       <BioHelix />
@@ -957,6 +957,17 @@ function ExecuteButton({ onExecute }) {
   const hidden = useRandomDropout(6000, 16000);
   const binaryLeft = useMemo(() => pick(binaryBursts, Math.floor(Math.random() * binaryBursts.length)), []);
   const binaryRight = useMemo(() => pick(binaryBursts, Math.floor(Math.random() * binaryBursts.length) + 2), []);
+  const noise = useMemo(
+    () =>
+      Array.from({ length: 26 }, (_, index) => ({
+        id: index,
+        x: 4 + Math.random() * 92,
+        y: 8 + Math.random() * 82,
+        value: pick(binaryBursts, index + Math.floor(Math.random() * 9)),
+        delay: Math.random() * -2.4,
+      })),
+    [],
+  );
 
   return (
     <motion.button
@@ -981,6 +992,20 @@ function ExecuteButton({ onExecute }) {
       }}
       transition={{ duration: 3.6, repeat: Infinity, ease: 'steps(1)' }}
     >
+      <span className="button-noise" aria-hidden="true">
+        {noise.map((bit) => (
+          <i
+            key={bit.id}
+            style={{
+              '--nx': `${bit.x}%`,
+              '--ny': `${bit.y}%`,
+              '--nd': `${bit.delay}s`,
+            }}
+          >
+            {bit.value}
+          </i>
+        ))}
+      </span>
       <span className="button-binary">{binaryLeft}</span>
       <span className="button-command">SelFqUanTiFy..</span>
       <span className="button-binary">{binaryRight}</span>
@@ -1115,10 +1140,15 @@ function MoleculeLattice() {
           }}
         >
           <svg viewBox="0 0 190 130" role="img">
+            <g className="hex-board">
+              <path d="M23 35l12-7 12 7v14l-12 7-12-7zM48 21l12-7 12 7v14l-12 7-12-7zM138 20l12-7 12 7v14l-12 7-12-7zM143 84l12-7 12 7v14l-12 7-12-7zM26 88l12-7 12 7v14l-12 7-12-7z" />
+              <path className="parallel-traces" d="M20 59H48M20 64H48M20 69H48M140 55H174M140 60H174M140 65H174M62 103H126M62 108H126M62 113H126" />
+              <path className="parallel-traces ghost" d="M37 15H70M122 15H162M34 115H82M112 116H170" />
+            </g>
             <rect x="54" y="32" width="78" height="58" rx="3" />
             <rect className="chip-core" x="75" y="48" width="36" height="26" rx="2" />
-            <path d="M54 45H20V22M132 44H170V18M132 76H166V110M54 76H18V104" />
-            <path d="M75 32V12M91 32V6M108 32V14M75 90V120M92 90V114M110 90V124" />
+            <path d="M54 45H20V22M54 52H29V36M54 60H34V72M132 44H170V18M132 52H162V38M132 61H174V72M132 76H166V110M54 76H18V104" />
+            <path d="M75 32V12M83 32V8M91 32V6M100 32V10M108 32V14M116 32V8M75 90V120M84 90V116M92 90V114M101 90V118M110 90V124M119 90V116" />
             <path className="circuit-pulse" d="M20 22H60M132 44H170M132 76H166" />
             <circle cx="20" cy="22" r="4" />
             <circle cx="170" cy="18" r="4" />
@@ -1136,7 +1166,7 @@ function MoleculeLattice() {
 
 function FailureInterference() {
   const [bursts, setBursts] = useState(() =>
-    Array.from({ length: 12 }, (_, index) => ({
+    Array.from({ length: 10 }, (_, index) => ({
       id: index,
       x: Math.random() * 100,
       y: Math.random() * 100,
@@ -1189,7 +1219,7 @@ function FailureInterference() {
 function OrganicMisfire() {
   const cells = useMemo(
     () =>
-      Array.from({ length: 12 }, (_, index) => ({
+      Array.from({ length: 8 }, (_, index) => ({
         id: index,
         x: (index * 17.3) % 96,
         y: 10 + ((index * 23) % 80),
@@ -1219,7 +1249,7 @@ function OrganicMisfire() {
 function FloralSignalBloom() {
   const blooms = useMemo(
     () =>
-      Array.from({ length: 9 }, (_, index) => ({
+      Array.from({ length: 7 }, (_, index) => ({
         id: index,
         x: (index * 21.7) % 98,
         y: 8 + ((index * 29) % 84),
@@ -1514,7 +1544,7 @@ function SystemResetEvent({ manualEvent }) {
 
 function createFractures() {
   return {
-    blackouts: Array.from({ length: 8 }, (_, index) => ({
+    blackouts: Array.from({ length: 7 }, (_, index) => ({
       id: `blackout-${index}-${Math.random()}`,
       x: Math.random() * 100,
       y: Math.random() * 100,
@@ -1523,7 +1553,7 @@ function createFractures() {
       r: (Math.random() - 0.5) * 28,
       delay: Math.random() * -1.3,
     })),
-    flowers: Array.from({ length: 7 }, (_, index) => ({
+    flowers: Array.from({ length: 5 }, (_, index) => ({
       id: `flower-${index}-${Math.random()}`,
       x: Math.random() * 100,
       y: Math.random() * 100,
@@ -1540,7 +1570,7 @@ function createFractures() {
       r: (Math.random() - 0.5) * 48,
       delay: Math.random() * -1.6,
     })),
-    wires: Array.from({ length: 8 }, (_, index) => ({
+    wires: Array.from({ length: 6 }, (_, index) => ({
       id: `wire-${index}-${Math.random()}`,
       x: Math.random() * 100,
       y: Math.random() * 100,
@@ -1559,7 +1589,7 @@ function createCornerBlackouts() {
     { x: 100, y: 100, sx: -1, sy: -1 },
   ];
 
-  return Array.from({ length: 9 }, (_, index) => {
+  return Array.from({ length: 7 }, (_, index) => {
     const anchor = anchors[index % anchors.length];
     const edgeStrip = index > 4 && Math.random() > 0.46;
     return {
@@ -1575,6 +1605,70 @@ function createCornerBlackouts() {
       variant: index % 4,
     };
   });
+}
+
+function PointerField() {
+  const [point, setPoint] = useState({ x: 50, y: 50 });
+  const [ripples, setRipples] = useState([]);
+  const frame = useRef();
+  const lastPoint = useRef(point);
+
+  useEffect(() => {
+    const updatePoint = (event) => {
+      lastPoint.current = {
+        x: (event.clientX / window.innerWidth) * 100,
+        y: (event.clientY / window.innerHeight) * 100,
+      };
+      if (!frame.current) {
+        frame.current = requestAnimationFrame(() => {
+          setPoint(lastPoint.current);
+          frame.current = null;
+        });
+      }
+    };
+
+    const clickPoint = (event) => {
+      const ripple = {
+        id: Date.now() + Math.random(),
+        x: (event.clientX / window.innerWidth) * 100,
+        y: (event.clientY / window.innerHeight) * 100,
+      };
+      setRipples((current) => [...current.slice(-3), ripple]);
+      setTimeout(() => {
+        setRipples((current) => current.filter((item) => item.id !== ripple.id));
+      }, 950);
+    };
+
+    window.addEventListener('pointermove', updatePoint, { passive: true });
+    window.addEventListener('pointerdown', clickPoint, { passive: true });
+
+    return () => {
+      window.removeEventListener('pointermove', updatePoint);
+      window.removeEventListener('pointerdown', clickPoint);
+      if (frame.current) cancelAnimationFrame(frame.current);
+    };
+  }, []);
+
+  return (
+    <div
+      className="pointer-field"
+      aria-hidden="true"
+      style={{
+        '--px': `${point.x}%`,
+        '--py': `${point.y}%`,
+      }}
+    >
+      {ripples.map((ripple) => (
+        <span
+          key={ripple.id}
+          style={{
+            '--rx': `${ripple.x}%`,
+            '--ry': `${ripple.y}%`,
+          }}
+        />
+      ))}
+    </div>
+  );
 }
 
 export function App() {
@@ -1601,6 +1695,7 @@ export function App() {
       <RealityFractures />
       <CornerBlackouts />
       <SystemResetEvent manualEvent={manualEvent} />
+      <PointerField />
       <div className="bio-sigil" aria-hidden="true" />
       <div className="glitch-storm" aria-hidden="true" />
       <div className="scanlines" aria-hidden="true" />

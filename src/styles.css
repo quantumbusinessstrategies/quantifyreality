@@ -508,10 +508,43 @@ textarea {
 }
 
 .button-binary,
-.button-command {
+.button-command,
+.button-noise {
   position: relative;
   z-index: 1;
+}
+
+.button-binary,
+.button-command {
   display: block;
+}
+
+.button-noise {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  overflow: hidden;
+  border-radius: inherit;
+  opacity: 0.75;
+  mask-image: linear-gradient(90deg, transparent 0 4%, #000 12% 88%, transparent 96%);
+}
+
+.button-noise i {
+  position: absolute;
+  left: var(--nx);
+  top: var(--ny);
+  color: rgba(174, 255, 189, 0.64);
+  font-style: normal;
+  font-size: clamp(0.34rem, 0.56vw, 0.52rem);
+  line-height: 1;
+  white-space: nowrap;
+  translate: -50% -50%;
+  text-shadow:
+    0 0 7px rgba(135, 255, 139, 0.72),
+    0 0 13px rgba(91, 248, 255, 0.28);
+  animation: button-noise-drift 1.55s steps(3) infinite;
+  animation-delay: var(--nd);
 }
 
 .button-binary {
@@ -694,6 +727,31 @@ textarea {
 .chem-wireframe .ghost,
 .circuit-wireframe .chip-core {
   opacity: 0.48;
+}
+
+.circuit-wireframe::before {
+  position: absolute;
+  inset: 12% -4% 20%;
+  z-index: -1;
+  content: "";
+  background:
+    linear-gradient(30deg, transparent 0 46%, color-mix(in srgb, var(--wire), transparent 72%) 47% 49%, transparent 50%),
+    linear-gradient(150deg, transparent 0 46%, color-mix(in srgb, var(--wire), transparent 78%) 47% 49%, transparent 50%),
+    repeating-linear-gradient(90deg, transparent 0 5px, color-mix(in srgb, var(--wire), transparent 78%) 6px 7px, transparent 8px 13px);
+  background-size: 24px 28px, 24px 28px, 100% 100%;
+  border: 1px solid color-mix(in srgb, var(--wire), transparent 74%);
+  opacity: 0.34;
+  filter: blur(0.2px);
+  animation: hex-board-static 1.9s steps(2) infinite;
+}
+
+.circuit-wireframe .hex-board {
+  opacity: 0.7;
+}
+
+.circuit-wireframe .parallel-traces {
+  opacity: 0.72;
+  stroke-width: 1.15;
 }
 
 .chem-wireframe .electron {
@@ -1174,6 +1232,34 @@ textarea {
   animation: boot-type 0.18s steps(2) both;
 }
 
+.pointer-field {
+  position: fixed;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at var(--px) var(--py), rgba(123, 255, 225, 0.16), transparent 0 8%, rgba(255, 94, 203, 0.08) 10%, transparent 18%),
+    linear-gradient(90deg, transparent, rgba(121, 255, 225, 0.02), transparent);
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  transition: opacity 120ms steps(2);
+}
+
+.pointer-field span {
+  position: absolute;
+  left: var(--rx);
+  top: var(--ry);
+  width: 24px;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border: 1px solid rgba(171, 255, 222, 0.88);
+  border-radius: 50%;
+  box-shadow:
+    0 0 18px rgba(112, 248, 255, 0.58),
+    0 0 34px rgba(255, 94, 203, 0.36);
+  animation: pointer-quantum-click 950ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 .bio-sigil {
   position: fixed;
   top: 42%;
@@ -1586,6 +1672,26 @@ textarea {
   }
 }
 
+@keyframes button-noise-drift {
+  0%,
+  100% {
+    opacity: 0.12;
+    transform: translateX(0) scaleX(0.8);
+  }
+  24% {
+    opacity: 0.78;
+    transform: translateX(8px) scaleX(1.4);
+  }
+  25% {
+    opacity: 0.18;
+    transform: translateX(-10px) skewX(-22deg);
+  }
+  62% {
+    opacity: 0.5;
+    transform: translateX(3px) scaleX(1.1);
+  }
+}
+
 @keyframes button-command-phase {
   0%,
   100% {
@@ -1782,6 +1888,26 @@ textarea {
   62% {
     opacity: 0.64;
     stroke-dashoffset: -64;
+  }
+}
+
+@keyframes hex-board-static {
+  0%,
+  100% {
+    opacity: 0.22;
+    transform: translateX(0);
+  }
+  35% {
+    opacity: 0.48;
+    transform: translateX(5px);
+  }
+  36% {
+    opacity: 0.1;
+    transform: translateX(-7px) skewX(10deg);
+  }
+  70% {
+    opacity: 0.36;
+    background-position: 12px 0, -12px 0, 0 0;
   }
 }
 
@@ -2041,6 +2167,29 @@ textarea {
   to {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+
+@keyframes pointer-quantum-click {
+  0% {
+    opacity: 0.9;
+    scale: 0.2;
+    transform: rotate(0deg);
+  }
+  38% {
+    opacity: 0.62;
+    scale: 4.4 1.4;
+    transform: rotate(34deg) skewX(-18deg);
+  }
+  39% {
+    opacity: 0.24;
+    scale: 1.8 4.2;
+    transform: rotate(-22deg) skewX(18deg);
+  }
+  100% {
+    opacity: 0;
+    scale: 8;
+    transform: rotate(0deg);
   }
 }
 
