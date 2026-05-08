@@ -1,7 +1,7 @@
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, PerspectiveCamera, Sparkles } from '@react-three/drei';
 import { motion } from 'framer-motion';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 const codeFragments = [
@@ -43,6 +43,40 @@ const titlePixelFragments = Array.from({ length: 34 }, (_, index) => ({
   delay: index * -0.047,
   color: ['#79ffdf', '#62f8ff', '#ff72cc', '#ffd06f', '#b69cff'][index % 5],
 }));
+
+const binaryBursts = [
+  '100 101 01101 10 00 110101',
+  '0110 0001 111 01 10101',
+  '10 00 110101 001 1110',
+  '101 101 000 111001 01',
+  '0 1 0 11 0101 111000',
+];
+
+const chemicalLexicon = [
+  { name: 'DOPAMINE', formula: 'C8H11NO2', signal: 'reward//wanting', color: '#62f8ff' },
+  { name: 'SEROTONIN', formula: 'C10H12N2O', signal: 'mood//regulate', color: '#ff72cc' },
+  { name: 'OXYTOCIN', formula: 'C43H66N12O12S2', signal: 'bond//survive', color: '#ffb061' },
+  { name: 'DMT', formula: 'C12H16N2', signal: 'vision//rupture', color: '#b69cff' },
+  { name: 'CARBON', formula: 'C', signal: 'body//clock', color: '#8aff9b' },
+];
+
+const moleculeBlueprints = [
+  { name: 'DOPAMINE', formula: 'C8H11NO2', x: 14, y: 18, scale: 1.15, delay: -0.2 },
+  { name: 'SEROTONIN', formula: 'C10H12N2O', x: 35, y: 34, scale: 0.94, delay: -1.3 },
+  { name: 'OXYTOCIN', formula: 'C43H66N12O12S2', x: 18, y: 64, scale: 1.02, delay: -2.2 },
+  { name: 'DMT', formula: 'C12H16N2', x: 40, y: 76, scale: 0.86, delay: -3.1 },
+  { name: 'CARBON-LEAP', formula: 'C / psi', x: 8, y: 42, scale: 0.78, delay: -4.4 },
+  { name: 'RNA-FOLD', formula: 'AUGC', x: 32, y: 9, scale: 0.74, delay: -5.1 },
+];
+
+const circuitBlueprints = [
+  { name: 'MICROCHIP_0xA7', x: 68, y: 18, scale: 1.04, delay: -0.7 },
+  { name: 'BUS_LOGIC_13', x: 86, y: 34, scale: 0.88, delay: -1.6 },
+  { name: 'WIRING_DIAGRAM', x: 63, y: 62, scale: 1.14, delay: -2.8 },
+  { name: 'RENDER_CORE', x: 82, y: 74, scale: 0.82, delay: -3.7 },
+  { name: 'CLOCK_GATE', x: 72, y: 48, scale: 0.74, delay: -4.6 },
+  { name: 'MEMORY_LATTICE', x: 93, y: 11, scale: 0.62, delay: -5.4 },
+];
 
 function createTitleBlockFragments() {
   return Array.from({ length: 22 }, (_, index) => ({
@@ -93,6 +127,97 @@ function useRandomDropout(minGap = 5000, maxGap = 14000) {
 
 function randomBetween(min, max) {
   return min + Math.random() * (max - min);
+}
+
+function pick(items, index) {
+  return items[index % items.length];
+}
+
+function stripReferenceText(value = '') {
+  return value
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/&amp;/g, '&')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function binaryFromText(value) {
+  const source = value || 'SELF';
+  return source
+    .slice(0, 10)
+    .split('')
+    .map((char) => char.charCodeAt(0).toString(2).slice(-5).padStart(5, '0'))
+    .join(' ');
+}
+
+async function fetchKnowledgeReferences(prompt) {
+  const query = prompt.trim().replace(/\s+/g, ' ').slice(0, 90);
+  if (!query) return [];
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 2400);
+
+  try {
+    const url = `https://en.wikipedia.org/w/api.php?origin=*&action=query&format=json&list=search&srlimit=3&srsearch=${encodeURIComponent(query)}`;
+    const response = await fetch(url, { signal: controller.signal });
+    if (!response.ok) return [];
+    const data = await response.json();
+    return (data?.query?.search || []).map((item) => ({
+      title: stripReferenceText(item.title).toUpperCase(),
+      snippet: stripReferenceText(item.snippet).slice(0, 124),
+    }));
+  } catch {
+    return [];
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function buildKnowledgeLines(prompt, references = []) {
+  const subject = prompt.trim() || 'UNNAMED OBSERVER';
+  const tokens = subject.toUpperCase().split(/\s+/).slice(0, 7);
+  const seed = Array.from(subject).reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  const lines = [
+    `C:\\SELF> SelFqUanTiFy.. /SUBJECT="${subject.toUpperCase().slice(0, 58)}"`,
+    `BIN.STUTTER ${binaryFromText(subject)} :: ${pick(binaryBursts, seed)}`,
+    `WEB_REF.SCAN(${tokens.join('_') || 'SELF'}) => CACHE: BLEEDING / CERTAINTY: ${((seed % 41) + 33).toString().padStart(2, '0')}.0%`,
+  ];
+
+  references.forEach((reference, index) => {
+    const molecule = pick(chemicalLexicon, seed + index);
+    lines.push(
+      `REF[${index}] ${reference.title || 'NO_TITLE'} :: ${reference.snippet || 'NO STABLE ABSTRACT'} // ${molecule.name}.${molecule.formula}`,
+    );
+  });
+
+  if (!references.length) {
+    lines.push('WEB_REF.TIMEOUT :: OUTSIDE KNOWLEDGE WOULD NOT HOLD SHAPE');
+    lines.push('LOCAL_CACHE.RECURSION :: THE WORD BITES ITS OWN DEFINITION');
+  }
+
+  for (let index = 0; index < 22; index += 1) {
+    const molecule = pick(chemicalLexicon, seed + index);
+    const token = pick(tokens.length ? tokens : ['SELF', 'VOID', 'SIGNAL'], index);
+    const binary = pick(binaryBursts, seed + index);
+    lines.push(
+      `0x${(seed + index * 137).toString(16).toUpperCase().padStart(4, '0')} :: ${token}.${molecule.name}(${molecule.formula}) -> ${molecule.signal} | ${binary}`,
+    );
+    if (index % 4 === 2) {
+      lines.push(
+        `if (${token.toLowerCase()} !== body) { synthesize(${molecule.name.toLowerCase()}, "fear", "light"); } else { decay=false; }`,
+      );
+    }
+  }
+
+  lines.push('C:\\SELF> REALITY_REENTRY /NO_WITNESS /NO_PROMISE /KEEP_BREATHING');
+  return lines;
+}
+
+async function createPromptKnowledge(prompt) {
+  const references = await fetchKnowledgeReferences(prompt);
+  return buildKnowledgeLines(prompt, references);
 }
 
 function InfoSea() {
@@ -253,7 +378,7 @@ function DataNodes() {
             {particle.shape === 2 && <tetrahedronGeometry args={[1.25, 0]} />}
             {particle.shape === 3 && <boxGeometry args={[1.3, 1.3, 1.3, 1, 1, 1]} />}
             {particle.shape === 4 && <torusGeometry args={[0.82, 0.08, 5, 12]} />}
-            <meshBasicMaterial color={particle.color} transparent opacity={0.78} />
+            <meshBasicMaterial color={particle.color} wireframe transparent opacity={0.5} />
           </mesh>
         </Float>
       ))}
@@ -448,59 +573,163 @@ function BioHelix() {
   );
 }
 
-function SacredEngine() {
-  const sigil = useRef();
-  const system = useMemo(() => {
-    const group = new THREE.Group();
-    const materialA = new THREE.LineBasicMaterial({
-      color: '#72faff',
-      transparent: true,
-      opacity: 0.19,
-      blending: THREE.AdditiveBlending,
-    });
-    const materialB = new THREE.LineBasicMaterial({
-      color: '#ff67c9',
-      transparent: true,
-      opacity: 0.15,
-      blending: THREE.AdditiveBlending,
-    });
+function CyberOrganicWireframes() {
+  const organicRef = useRef();
+  const cyberRef = useRef();
+  const systems = useMemo(() => {
+    const makeMaterial = (color, opacity) =>
+      new THREE.LineBasicMaterial({
+        color,
+        transparent: true,
+        opacity,
+        blending: THREE.AdditiveBlending,
+      });
 
-    for (let ring = 0; ring < 7; ring += 1) {
-      const radius = 1.2 + ring * 0.52;
+    const organic = new THREE.Group();
+    const cyber = new THREE.Group();
+    const organicMaterials = [
+      makeMaterial('#67f8ff', 0.32),
+      makeMaterial('#ff62c9', 0.28),
+      makeMaterial('#ffb061', 0.23),
+      makeMaterial('#9dff8b', 0.24),
+    ];
+    const cyberMaterials = [
+      makeMaterial('#5cf7ff', 0.28),
+      makeMaterial('#b88cff', 0.2),
+      makeMaterial('#e8ffff', 0.16),
+    ];
+
+    const addLine = (group, points, material) => {
+      group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), material));
+    };
+
+    const addHex = (group, center, radius, material, phase = 0) => {
       const points = [];
-      const sides = ring % 2 ? 6 : 3;
-      for (let i = 0; i <= sides; i += 1) {
-        const angle = (i / sides) * Math.PI * 2 + ring * 0.18;
-        points.push(new THREE.Vector3(Math.cos(angle) * radius, Math.sin(angle) * radius, 0));
+      for (let i = 0; i <= 6; i += 1) {
+        const angle = phase + (i / 6) * Math.PI * 2;
+        points.push(new THREE.Vector3(center.x + Math.cos(angle) * radius, center.y + Math.sin(angle) * radius, center.z));
       }
-      group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), ring % 2 ? materialA : materialB));
-    }
+      addLine(group, points, material);
+    };
 
-    for (let i = 0; i < 18; i += 1) {
-      const angle = (i / 18) * Math.PI * 2;
-      group.add(
-        new THREE.Line(
-          new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(Math.cos(angle) * 0.55, Math.sin(angle) * 0.55, 0),
-            new THREE.Vector3(Math.cos(angle) * 4.65, Math.sin(angle) * 4.65, 0),
-          ]),
-          i % 2 ? materialA : materialB,
-        ),
+    for (let i = 0; i < 7; i += 1) {
+      const x = -4.9 + (i % 3) * 1.55;
+      const y = -2.2 + Math.floor(i / 3) * 2.05;
+      const z = -2.7 + (i % 2) * 0.45;
+      const mat = organicMaterials[i % organicMaterials.length];
+      addHex(organic, new THREE.Vector3(x, y, z), 0.5 + (i % 2) * 0.08, mat, i * 0.18);
+      addHex(organic, new THREE.Vector3(x + 0.72, y + 0.12, z), 0.42, organicMaterials[(i + 1) % organicMaterials.length], Math.PI / 6);
+      addLine(
+        organic,
+        [
+          new THREE.Vector3(x + 0.5, y - 0.42, z),
+          new THREE.Vector3(x + 1.05, y - 0.95, z + 0.18),
+          new THREE.Vector3(x + 1.62, y - 0.72, z + 0.08),
+        ],
+        mat,
+      );
+      addLine(
+        organic,
+        [
+          new THREE.Vector3(x - 0.4, y + 0.44, z),
+          new THREE.Vector3(x - 0.9, y + 0.92, z + 0.16),
+        ],
+        organicMaterials[(i + 2) % organicMaterials.length],
       );
     }
-    return group;
+
+    for (let i = 0; i < 28; i += 1) {
+      const angle = (i / 28) * Math.PI * 2;
+      const radius = 1.9 + Math.sin(i) * 0.42;
+      addLine(
+        organic,
+        [
+          new THREE.Vector3(-3.55 + Math.cos(angle) * radius, Math.sin(angle) * 1.5, -2.2 + Math.sin(angle) * 0.18),
+          new THREE.Vector3(-3.55 + Math.cos(angle + 0.34) * (radius + 0.28), Math.sin(angle + 0.2) * 1.7, -2.2),
+        ],
+        organicMaterials[i % organicMaterials.length],
+      );
+    }
+
+    for (let chip = 0; chip < 6; chip += 1) {
+      const x = 2.2 + (chip % 3) * 1.25;
+      const y = -2.2 + Math.floor(chip / 3) * 2.25;
+      const z = -2.8 + (chip % 2) * 0.38;
+      const mat = cyberMaterials[chip % cyberMaterials.length];
+      const w = 0.82 + (chip % 2) * 0.22;
+      const h = 0.58 + (chip % 3) * 0.11;
+      addLine(
+        cyber,
+        [
+          new THREE.Vector3(x - w, y - h, z),
+          new THREE.Vector3(x + w, y - h, z),
+          new THREE.Vector3(x + w, y + h, z),
+          new THREE.Vector3(x - w, y + h, z),
+          new THREE.Vector3(x - w, y - h, z),
+        ],
+        mat,
+      );
+      for (let pin = 0; pin < 6; pin += 1) {
+        const px = x - w + (pin / 5) * w * 2;
+        addLine(cyber, [new THREE.Vector3(px, y + h, z), new THREE.Vector3(px, y + h + 0.45, z)], mat);
+        addLine(cyber, [new THREE.Vector3(px, y - h, z), new THREE.Vector3(px, y - h - 0.45, z)], mat);
+      }
+      addLine(
+        cyber,
+        [
+          new THREE.Vector3(x + w, y, z),
+          new THREE.Vector3(x + w + 0.7, y + 0.36, z),
+          new THREE.Vector3(x + w + 1.22, y + 0.36, z + 0.12),
+        ],
+        cyberMaterials[(chip + 1) % cyberMaterials.length],
+      );
+    }
+
+    for (let i = 0; i < 34; i += 1) {
+      const x = 1.4 + Math.random() * 5.9;
+      const y = -3 + Math.random() * 6.1;
+      const elbow = Math.random() > 0.5 ? 0.42 : -0.42;
+      addLine(
+        cyber,
+        [
+          new THREE.Vector3(x, y, -3.2 + Math.random() * 1.4),
+          new THREE.Vector3(x + elbow, y, -3.2 + Math.random() * 1.4),
+          new THREE.Vector3(x + elbow, y + (Math.random() - 0.5) * 1.6, -3.2 + Math.random() * 1.4),
+        ],
+        cyberMaterials[i % cyberMaterials.length],
+      );
+    }
+
+    return { organic, cyber };
   }, []);
 
   useFrame(({ clock }) => {
     const time = clock.getElapsedTime();
-    if (sigil.current) {
-      sigil.current.rotation.z = time * 0.055;
-      sigil.current.rotation.x = Math.sin(time * 0.12) * 0.2;
-      sigil.current.scale.setScalar(1 + Math.sin(time * 0.31) * 0.04);
+    if (organicRef.current) {
+      organicRef.current.rotation.y = Math.sin(time * 0.16) * 0.22;
+      organicRef.current.rotation.z = Math.sin(time * 0.11) * 0.12;
+      organicRef.current.children.forEach((child, index) => {
+        child.visible = Math.sin(time * 4.7 + index * 1.9) > -0.92;
+        child.material.opacity = (0.12 + Math.max(0, Math.sin(time * 0.9 + index)) * 0.28) * (index % 4 === 0 ? 1.35 : 1);
+      });
+    }
+    if (cyberRef.current) {
+      cyberRef.current.rotation.y = Math.sin(time * 0.19) * -0.2;
+      cyberRef.current.rotation.x = Math.cos(time * 0.12) * 0.08;
+      cyberRef.current.children.forEach((child, index) => {
+        child.visible = Math.sin(time * 7.5 + index * 2.2) > -0.78;
+        child.position.x += Math.sin(time * 8 + index) * 0.0018;
+        child.material.opacity = 0.09 + Math.max(0, Math.sin(time * 1.6 + index)) * 0.3;
+      });
     }
   });
 
-  return <primitive object={system} ref={sigil} position={[2.1, 0.4, -2.9]} rotation={[0.18, -0.52, 0]} />;
+  return (
+    <group>
+      <primitive object={systems.organic} ref={organicRef} position={[0.05, 0.12, 0]} rotation={[0.14, 0.18, -0.08]} />
+      <primitive object={systems.cyber} ref={cyberRef} position={[-0.08, 0.02, 0]} rotation={[0.08, -0.18, 0.05]} />
+    </group>
+  );
 }
 
 function GlitchPlanes() {
@@ -556,11 +785,11 @@ function Scene() {
       <pointLight position={[-4, 3, 4]} color="#55eaff" intensity={16} distance={16} />
       <pointLight position={[5, -2, 2]} color="#ff58be" intensity={13} distance={14} />
       <pointLight position={[0, 4, -3]} color="#ff9d4c" intensity={7} distance={12} />
-      <Sparkles count={145} speed={0.2} size={1.95} scale={[17, 9, 10]} color="#b8fbff" opacity={0.36} />
+      <Sparkles count={92} speed={0.18} size={1.15} scale={[17, 9, 10]} color="#b8fbff" opacity={0.28} />
       <InfoSea />
       <ConsciousnessCore />
       <BioHelix />
-      <SacredEngine />
+      <CyberOrganicWireframes />
       <GlitchPlanes />
       <DataNodes />
     </Canvas>
@@ -700,8 +929,7 @@ function GlitchTitle() {
   );
 }
 
-function Terminal() {
-  const [value, setValue] = useState('');
+function Terminal({ value, onChange }) {
   const hidden = useRandomDropout(7000, 18000);
 
   return (
@@ -712,25 +940,29 @@ function Terminal() {
       </div>
       <label className="prompt-line">
         <span>C:\QUANTIFY&gt;</span>
-        <input
+        <textarea
           value={value}
-          onChange={(event) => setValue(event.target.value)}
+          onChange={(event) => onChange(event.target.value)}
           spellCheck="false"
           aria-label="Reality command"
           autoComplete="off"
+          rows={2}
         />
       </label>
     </div>
   );
 }
 
-function ExecuteButton() {
+function ExecuteButton({ onExecute }) {
   const hidden = useRandomDropout(6000, 16000);
+  const binaryLeft = useMemo(() => pick(binaryBursts, Math.floor(Math.random() * binaryBursts.length)), []);
+  const binaryRight = useMemo(() => pick(binaryBursts, Math.floor(Math.random() * binaryBursts.length) + 2), []);
 
   return (
     <motion.button
       className={`execute-button ${hidden ? 'is-offline' : ''}`}
       type="button"
+      onClick={onExecute}
       whileHover={{
         scale: 1.025,
         textShadow: '3px 0 #5cf7ff, -3px 0 #ff49bd',
@@ -749,7 +981,9 @@ function ExecuteButton() {
       }}
       transition={{ duration: 3.6, repeat: Infinity, ease: 'steps(1)' }}
     >
-      SELFIMPOSEQUANTIFY.EXE
+      <span className="button-binary">{binaryLeft}</span>
+      <span className="button-command">SelFqUanTiFy..</span>
+      <span className="button-binary">{binaryRight}</span>
     </motion.button>
   );
 }
@@ -814,42 +1048,87 @@ function GlyphVeil() {
 }
 
 function MoleculeLattice() {
-  const nodes = Array.from({ length: 14 }, (_, index) => ({
-    id: index,
-    x: (index * 23) % 97,
-    y: 7 + ((index * 31) % 86),
-    s: 4 + (index % 5) * 2,
-  }));
-  const bonds = Array.from({ length: 12 }, (_, index) => ({
-    id: index,
-    x: (index * 29) % 96,
-    y: 9 + ((index * 17) % 82),
-    w: 38 + (index % 6) * 21,
-    r: -70 + (index * 37) % 140,
-  }));
+  const chemistry = useMemo(
+    () =>
+      moleculeBlueprints.map((molecule, index) => ({
+        ...molecule,
+        id: `${molecule.name}-${index}`,
+        hue: ['#67f8ff', '#ff62c9', '#ffb061', '#9dff8b', '#b69cff'][index % 5],
+        binary: pick(binaryBursts, index),
+      })),
+    [],
+  );
+  const circuits = useMemo(
+    () =>
+      circuitBlueprints.map((circuit, index) => ({
+        ...circuit,
+        id: `${circuit.name}-${index}`,
+        hue: ['#67f8ff', '#b69cff', '#dffcff', '#66ffb1'][index % 4],
+        binary: pick(binaryBursts, index + 2),
+      })),
+    [],
+  );
 
   return (
-    <div className="molecule-lattice" aria-hidden="true">
-      {bonds.map((bond) => (
-        <i
-          key={bond.id}
-          style={{
-            '--mx': `${bond.x}%`,
-            '--my': `${bond.y}%`,
-            '--mw': `${bond.w}px`,
-            '--mr': `${bond.r}deg`,
-          }}
-        />
-      ))}
-      {nodes.map((node) => (
+    <div className="wireframe-composite" aria-hidden="true">
+      {chemistry.map((molecule) => (
         <span
-          key={node.id}
+          key={molecule.id}
+          className="chem-wireframe"
           style={{
-            '--mx': `${node.x}%`,
-            '--my': `${node.y}%`,
-            '--ms': `${node.s}px`,
+            '--wx': `${molecule.x}%`,
+            '--wy': `${molecule.y}%`,
+            '--ws': molecule.scale,
+            '--wd': `${molecule.delay}s`,
+            '--wire': molecule.hue,
           }}
-        />
+        >
+          <svg viewBox="0 0 180 130" role="img">
+            <polygon className="wire-ring" points="52,36 84,20 116,36 116,72 84,90 52,72" />
+            <polygon className="wire-ring ghost" points="92,40 118,28 146,44 144,72 118,86 92,72" />
+            <line x1="52" y1="36" x2="30" y2="22" />
+            <line x1="116" y1="72" x2="148" y2="98" />
+            <line x1="84" y1="90" x2="84" y2="116" />
+            <line x1="30" y1="22" x2="18" y2="35" />
+            <line x1="148" y1="98" x2="166" y2="86" />
+            <circle cx="30" cy="22" r="5" />
+            <circle cx="84" cy="116" r="5" />
+            <circle cx="166" cy="86" r="4" />
+            <circle className="electron" cx="84" cy="58" r="3" />
+            <text x="12" y="18">OH</text>
+            <text x="75" y="126">NH</text>
+          </svg>
+          <em>{molecule.name}</em>
+          <b>{molecule.formula} / {molecule.binary}</b>
+        </span>
+      ))}
+      {circuits.map((circuit) => (
+        <span
+          key={circuit.id}
+          className="circuit-wireframe"
+          style={{
+            '--wx': `${circuit.x}%`,
+            '--wy': `${circuit.y}%`,
+            '--ws': circuit.scale,
+            '--wd': `${circuit.delay}s`,
+            '--wire': circuit.hue,
+          }}
+        >
+          <svg viewBox="0 0 190 130" role="img">
+            <rect x="54" y="32" width="78" height="58" rx="3" />
+            <rect className="chip-core" x="75" y="48" width="36" height="26" rx="2" />
+            <path d="M54 45H20V22M132 44H170V18M132 76H166V110M54 76H18V104" />
+            <path d="M75 32V12M91 32V6M108 32V14M75 90V120M92 90V114M110 90V124" />
+            <path className="circuit-pulse" d="M20 22H60M132 44H170M132 76H166" />
+            <circle cx="20" cy="22" r="4" />
+            <circle cx="170" cy="18" r="4" />
+            <circle cx="166" cy="110" r="4" />
+            <circle cx="18" cy="104" r="4" />
+            <text x="58" y="27">0x</text>
+          </svg>
+          <em>{circuit.name}</em>
+          <b>{circuit.binary}</b>
+        </span>
       ))}
     </div>
   );
@@ -1106,10 +1385,14 @@ function CornerBlackouts() {
   );
 }
 
-function SystemResetEvent() {
+function SystemResetEvent({ manualEvent }) {
   const [active, setActive] = useState(false);
   const [phase, setPhase] = useState('dead');
   const [lines, setLines] = useState([]);
+  const timers = useRef([]);
+  const lineTimer = useRef();
+  const runSerial = useRef(0);
+  const scheduleRandom = useRef();
   const bootLines = useMemo(
     () => [
       'QR BIOS 00.77b  COPYRIGHT (C) 1983-2026 VOID SYSTEMS',
@@ -1136,61 +1419,86 @@ function SystemResetEvent() {
     [],
   );
 
-  useEffect(() => {
-    const timers = [];
-    let lineTimer;
-    let alive = true;
-    const addTimer = (callback, delay) => {
-      const timer = setTimeout(callback, delay);
-      timers.push(timer);
-      return timer;
-    };
+  const clearRuntime = useCallback(() => {
+    timers.current.forEach((timer) => clearTimeout(timer));
+    timers.current = [];
+    clearInterval(lineTimer.current);
+    lineTimer.current = null;
+  }, []);
 
-    const trigger = () => {
-      if (!alive) return;
-      const darkHold = randomBetween(3000, 10000);
-      const typeHold = randomBetween(1800, 3200);
+  const runReset = useCallback(
+    ({ prompt = '', manual = false } = {}) => {
+      runSerial.current += 1;
+      const runId = runSerial.current;
+      clearRuntime();
+
+      const darkHold = manual ? randomBetween(3000, 10000) : randomBetween(3000, 10000);
+      const typeHold = manual ? randomBetween(5600, 8400) : randomBetween(1800, 3200);
+      const typingInterval = manual ? 58 : 36;
+      const knowledgePromise = manual ? createPromptKnowledge(prompt) : Promise.resolve(bootLines);
+
+      const addTimer = (callback, delay) => {
+        const timer = setTimeout(callback, delay);
+        timers.current.push(timer);
+        return timer;
+      };
+
       setActive(true);
       setPhase('dead');
       setLines([]);
 
-      addTimer(() => {
-        if (!alive) return;
+      addTimer(async () => {
+        if (runSerial.current !== runId) return;
+        const outputLines = await knowledgePromise;
+        if (runSerial.current !== runId) return;
         setPhase('typing');
         let index = 0;
-        lineTimer = setInterval(() => {
-          setLines((current) => [...current.slice(-18), bootLines[index % bootLines.length]]);
+        lineTimer.current = setInterval(() => {
+          setLines((current) => [...current.slice(-20), outputLines[index % outputLines.length]]);
           index += 1;
-        }, 36);
+        }, typingInterval);
       }, darkHold);
 
       addTimer(() => {
-        if (!alive) return;
+        if (runSerial.current !== runId) return;
         setPhase('restore');
-        clearInterval(lineTimer);
+        clearInterval(lineTimer.current);
       }, darkHold + typeHold);
 
       addTimer(() => {
-        if (!alive) return;
+        if (runSerial.current !== runId) return;
         setActive(false);
         setPhase('dead');
         setLines([]);
-        schedule();
+        scheduleRandom.current?.();
       }, darkHold + typeHold + 900);
+    },
+    [bootLines, clearRuntime],
+  );
+
+  useEffect(() => {
+    let alive = true;
+    scheduleRandom.current = () => {
+      if (!alive) return;
+      const timer = setTimeout(() => {
+        if (alive) runReset({ manual: false });
+      }, randomBetween(120000, 1200000));
+      timers.current.push(timer);
     };
 
-    const schedule = () => {
-      addTimer(trigger, randomBetween(120000, 1200000));
-    };
-
-    schedule();
+    scheduleRandom.current();
 
     return () => {
       alive = false;
-      timers.forEach((timer) => clearTimeout(timer));
-      clearInterval(lineTimer);
+      clearRuntime();
+      scheduleRandom.current = null;
     };
-  }, [bootLines]);
+  }, [clearRuntime, runReset]);
+
+  useEffect(() => {
+    if (!manualEvent) return;
+    runReset({ manual: true, prompt: manualEvent.prompt });
+  }, [manualEvent, runReset]);
 
   return (
     <div className={`system-reset ${active ? 'is-active' : ''} is-${phase}`} aria-hidden="true">
@@ -1270,6 +1578,16 @@ function createCornerBlackouts() {
 }
 
 export function App() {
+  const [terminalValue, setTerminalValue] = useState('');
+  const [manualEvent, setManualEvent] = useState(null);
+
+  const handleExecute = useCallback(() => {
+    setManualEvent({
+      id: Date.now() + Math.random(),
+      prompt: terminalValue,
+    });
+  }, [terminalValue]);
+
   return (
     <main className="reality-root">
       <Scene />
@@ -1282,15 +1600,15 @@ export function App() {
       <FailureInterference />
       <RealityFractures />
       <CornerBlackouts />
-      <SystemResetEvent />
+      <SystemResetEvent manualEvent={manualEvent} />
       <div className="bio-sigil" aria-hidden="true" />
       <div className="glitch-storm" aria-hidden="true" />
       <div className="scanlines" aria-hidden="true" />
       <section className="hero-layer" aria-label="QUANTIFYREALITY">
         <GlitchTitle />
         <div className="lower-interface">
-          <Terminal />
-          <ExecuteButton />
+          <Terminal value={terminalValue} onChange={setTerminalValue} />
+          <ExecuteButton onExecute={handleExecute} />
         </div>
       </section>
     </main>
