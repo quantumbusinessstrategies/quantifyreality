@@ -1,0 +1,9 @@
+node_modules/
+dist/
+saves/
+*.log
+*.local
+.env
+.env.*
+desktop.ini
+QuantifyReality_HTML_Preview/
