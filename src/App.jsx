@@ -70,12 +70,21 @@ const moleculeBlueprints = [
 ];
 
 const circuitBlueprints = [
-  { name: 'MICROCHIP_0xA7', x: 68, y: 18, scale: 1.04, delay: -0.7 },
-  { name: 'BUS_LOGIC_13', x: 86, y: 34, scale: 0.88, delay: -1.6 },
-  { name: 'WIRING_DIAGRAM', x: 63, y: 62, scale: 1.14, delay: -2.8 },
-  { name: 'RENDER_CORE', x: 82, y: 74, scale: 0.82, delay: -3.7 },
-  { name: 'CLOCK_GATE', x: 72, y: 48, scale: 0.74, delay: -4.6 },
-  { name: 'MEMORY_LATTICE', x: 93, y: 11, scale: 0.62, delay: -5.4 },
+  { name: 'MICROCHIP_0xA7', x: 68, y: 18, scale: 0.78, delay: -0.7 },
+  { name: 'BUS_LOGIC_13', x: 86, y: 34, scale: 0.68, delay: -1.6 },
+  { name: 'WIRING_DIAGRAM', x: 63, y: 62, scale: 0.84, delay: -2.8 },
+  { name: 'RENDER_CORE', x: 82, y: 74, scale: 0.62, delay: -3.7 },
+  { name: 'CLOCK_GATE', x: 72, y: 48, scale: 0.58, delay: -4.6 },
+  { name: 'MEMORY_LATTICE', x: 93, y: 11, scale: 0.5, delay: -5.4 },
+];
+
+const satelliteLinks = [
+  { label: 'qubit.locker', href: 'https://qubit.locker' },
+  { label: 'quantumpepes.xyz', href: 'https://quantumpepes.xyz' },
+  { label: 'riskforge.ai', href: 'https://riskforge.ai' },
+  { label: 'quantumaibusiness.com', href: 'https://quantumaibusiness.com' },
+  { label: 'quantumbusinessstrategies.com', href: 'https://quantumbusinessstrategies.com' },
+  { label: 'quantumreality.tech', href: 'https://quantumreality.tech' },
 ];
 
 function createTitleBlockFragments() {
@@ -328,7 +337,7 @@ function InfoSea() {
   return (
     <group rotation={[-1.18, 0, 0]} position={[0, -2.1, -2.35]}>
       <mesh ref={mesh} material={material}>
-        <planeGeometry args={[24, 18, 96, 72]} />
+        <planeGeometry args={[24, 18, 84, 60]} />
       </mesh>
       <mesh ref={glow} position={[0, 0, -0.42]}>
         <torusGeometry args={[5.3, 0.018, 8, 240]} />
@@ -345,7 +354,7 @@ function InfoSea() {
 function DataNodes() {
   const group = useRef();
   const particles = useMemo(() => {
-    return Array.from({ length: 32 }, (_, index) => ({
+    return Array.from({ length: 26 }, (_, index) => ({
       id: index,
       position: [
         (Math.random() - 0.5) * 13,
@@ -439,12 +448,12 @@ function ConsciousnessCore() {
   const veinSystem = useMemo(() => {
     const group = new THREE.Group();
     const colors = ['#63f8ff', '#ff5ebd', '#a882ff', '#ff9f4c'];
-    for (let i = 0; i < 26; i += 1) {
-      const angle = (i / 26) * Math.PI * 2;
+    for (let i = 0; i < 20; i += 1) {
+      const angle = (i / 20) * Math.PI * 2;
       const radius = 1.65 + (i % 5) * 0.09;
       const points = [];
-      for (let j = 0; j < 44; j += 1) {
-        const t = j / 43;
+      for (let j = 0; j < 36; j += 1) {
+        const t = j / 35;
         const curl = angle + t * 1.8 + Math.sin(t * 7 + i) * 0.16;
         points.push(
           new THREE.Vector3(
@@ -651,13 +660,13 @@ function CyberOrganicWireframes() {
       );
     }
 
-    for (let chip = 0; chip < 6; chip += 1) {
-      const x = 2.2 + (chip % 3) * 1.25;
-      const y = -2.2 + Math.floor(chip / 3) * 2.25;
+    for (let chip = 0; chip < 8; chip += 1) {
+      const x = 2.0 + (chip % 4) * 0.92;
+      const y = -2.25 + Math.floor(chip / 4) * 2.1;
       const z = -2.8 + (chip % 2) * 0.38;
       const mat = cyberMaterials[chip % cyberMaterials.length];
-      const w = 0.82 + (chip % 2) * 0.22;
-      const h = 0.58 + (chip % 3) * 0.11;
+      const w = 0.42 + (chip % 2) * 0.12;
+      const h = 0.3 + (chip % 3) * 0.05;
       addLine(
         cyber,
         [
@@ -669,23 +678,23 @@ function CyberOrganicWireframes() {
         ],
         mat,
       );
-      for (let pin = 0; pin < 6; pin += 1) {
-        const px = x - w + (pin / 5) * w * 2;
-        addLine(cyber, [new THREE.Vector3(px, y + h, z), new THREE.Vector3(px, y + h + 0.45, z)], mat);
-        addLine(cyber, [new THREE.Vector3(px, y - h, z), new THREE.Vector3(px, y - h - 0.45, z)], mat);
+      for (let pin = 0; pin < 8; pin += 1) {
+        const px = x - w + (pin / 7) * w * 2;
+        addLine(cyber, [new THREE.Vector3(px, y + h, z), new THREE.Vector3(px, y + h + 0.26, z)], mat);
+        addLine(cyber, [new THREE.Vector3(px, y - h, z), new THREE.Vector3(px, y - h - 0.26, z)], mat);
       }
       addLine(
         cyber,
         [
           new THREE.Vector3(x + w, y, z),
-          new THREE.Vector3(x + w + 0.7, y + 0.36, z),
-          new THREE.Vector3(x + w + 1.22, y + 0.36, z + 0.12),
+          new THREE.Vector3(x + w + 0.36, y + 0.22, z),
+          new THREE.Vector3(x + w + 0.78, y + 0.22, z + 0.12),
         ],
         cyberMaterials[(chip + 1) % cyberMaterials.length],
       );
     }
 
-    for (let i = 0; i < 34; i += 1) {
+    for (let i = 0; i < 26; i += 1) {
       const x = 1.4 + Math.random() * 5.9;
       const y = -3 + Math.random() * 6.1;
       const elbow = Math.random() > 0.5 ? 0.42 : -0.42;
@@ -777,7 +786,11 @@ function GlitchPlanes() {
 
 function Scene() {
   return (
-    <Canvas dpr={[1, 1.35]} gl={{ antialias: true, alpha: true }} className="cosmos-canvas">
+    <Canvas
+      dpr={[0.85, 1.15]}
+      gl={{ antialias: false, alpha: true, powerPreference: 'high-performance', stencil: false }}
+      className="cosmos-canvas"
+    >
       <PerspectiveCamera makeDefault position={[0, 0.25, 8.4]} fov={53} />
       <color attach="background" args={['#020105']} />
       <fog attach="fog" args={['#04010a', 7, 19]} />
@@ -785,7 +798,7 @@ function Scene() {
       <pointLight position={[-4, 3, 4]} color="#55eaff" intensity={16} distance={16} />
       <pointLight position={[5, -2, 2]} color="#ff58be" intensity={13} distance={14} />
       <pointLight position={[0, 4, -3]} color="#ff9d4c" intensity={7} distance={12} />
-      <Sparkles count={54} speed={0.16} size={1.05} scale={[15, 8, 8]} color="#b8fbff" opacity={0.24} />
+      <Sparkles count={42} speed={0.14} size={0.95} scale={[14, 7.6, 8]} color="#b8fbff" opacity={0.22} />
       <InfoSea />
       <ConsciousnessCore />
       <BioHelix />
@@ -1141,15 +1154,16 @@ function MoleculeLattice() {
         >
           <svg viewBox="0 0 190 130" role="img">
             <g className="hex-board">
-              <path d="M23 35l12-7 12 7v14l-12 7-12-7zM48 21l12-7 12 7v14l-12 7-12-7zM138 20l12-7 12 7v14l-12 7-12-7zM143 84l12-7 12 7v14l-12 7-12-7zM26 88l12-7 12 7v14l-12 7-12-7z" />
-              <path className="parallel-traces" d="M20 59H48M20 64H48M20 69H48M140 55H174M140 60H174M140 65H174M62 103H126M62 108H126M62 113H126" />
-              <path className="parallel-traces ghost" d="M37 15H70M122 15H162M34 115H82M112 116H170" />
+              <path d="M18 31l9-5 9 5v10l-9 5-9-5zM39 19l9-5 9 5v10l-9 5-9-5zM60 31l9-5 9 5v10l-9 5-9-5zM128 21l9-5 9 5v10l-9 5-9-5zM151 34l9-5 9 5v10l-9 5-9-5zM137 84l9-5 9 5v10l-9 5-9-5zM160 96l9-5 9 5v10l-9 5-9-5zM22 88l9-5 9 5v10l-9 5-9-5zM44 100l9-5 9 5v10l-9 5-9-5z" />
+              <path className="parallel-traces" d="M16 55H50M16 59H50M16 63H50M16 67H50M136 53H178M136 57H178M136 61H178M136 65H178M60 100H130M60 104H130M60 108H130M60 112H130" />
+              <path className="parallel-traces ghost" d="M28 11H78M28 15H78M112 12H168M112 16H168M30 118H86M30 122H86M102 118H174M102 122H174" />
             </g>
-            <rect x="54" y="32" width="78" height="58" rx="3" />
-            <rect className="chip-core" x="75" y="48" width="36" height="26" rx="2" />
-            <path d="M54 45H20V22M54 52H29V36M54 60H34V72M132 44H170V18M132 52H162V38M132 61H174V72M132 76H166V110M54 76H18V104" />
-            <path d="M75 32V12M83 32V8M91 32V6M100 32V10M108 32V14M116 32V8M75 90V120M84 90V116M92 90V114M101 90V118M110 90V124M119 90V116" />
-            <path className="circuit-pulse" d="M20 22H60M132 44H170M132 76H166" />
+            <rect x="70" y="42" width="50" height="36" rx="2" />
+            <rect className="chip-core" x="84" y="52" width="22" height="16" rx="1.5" />
+            <path d="M70 48H20V22M70 53H34V35M70 59H28V70M70 65H44V80M120 47H170V18M120 53H160V38M120 59H176V72M120 66H162V93M120 72H166V110M70 72H18V104" />
+            <path d="M76 42V12M81 42V8M86 42V6M91 42V10M96 42V7M101 42V14M106 42V9M112 42V15M76 78V120M82 78V116M88 78V114M94 78V118M100 78V124M106 78V116M112 78V121" />
+            <path className="micro-traces" d="M80 47H110M80 50H110M80 73H110M80 76H110M64 37H128M64 82H128" />
+            <path className="circuit-pulse" d="M20 22H70M120 47H170M120 72H166" />
             <circle cx="20" cy="22" r="4" />
             <circle cx="170" cy="18" r="4" />
             <circle cx="166" cy="110" r="4" />
@@ -1191,7 +1205,7 @@ function FailureInterference() {
           live: Math.random() > 0.34,
         })),
       );
-    }, 260);
+    }, 340);
 
     return () => clearInterval(timer);
   }, []);
@@ -1299,7 +1313,7 @@ function RealityFractures() {
         if (!alive) return;
         setFractures(createFractures());
         schedule();
-      }, randomBetween(850, 3100));
+      }, randomBetween(1200, 3800));
     };
 
     schedule();
@@ -1382,7 +1396,7 @@ function CornerBlackouts() {
         if (!alive) return;
         setBlocks(createCornerBlackouts());
         schedule();
-      }, randomBetween(420, 1900));
+      }, randomBetween(680, 2300));
     };
 
     schedule();
@@ -1671,9 +1685,136 @@ function PointerField() {
   );
 }
 
+function HiddenFractalPortal({ onOpen }) {
+  const facets = useMemo(
+    () =>
+      Array.from({ length: 34 }, (_, index) => ({
+        id: index,
+        x1: 50 + Math.cos((index / 34) * Math.PI * 2) * (10 + (index % 4) * 7),
+        y1: 50 + Math.sin((index / 34) * Math.PI * 2) * (8 + (index % 5) * 6),
+        x2: 50 + Math.cos(((index + 9) / 34) * Math.PI * 2) * (18 + (index % 6) * 4),
+        y2: 50 + Math.sin(((index + 9) / 34) * Math.PI * 2) * (16 + (index % 3) * 7),
+        delay: index * -0.09,
+      })),
+    [],
+  );
+
+  return (
+    <button
+      className="hidden-fractal-portal"
+      type="button"
+      aria-label="Open quantum links"
+      onClick={onOpen}
+    >
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <polygon className="portal-core" points="50,5 84,25 84,75 50,95 16,75 16,25" />
+        <polygon className="portal-octa-a" points="50,5 84,50 50,95 16,50" />
+        <polygon className="portal-octa-b" points="16,25 84,25 84,75 16,75" />
+        <polygon className="portal-inner" points="50,24 68,38 62,66 38,66 32,38" />
+        <path className="portal-fractal" d="M50 5L50 95M16 25L84 75M84 25L16 75M16 50H84M32 38L68 38M38 66L62 66M50 24L38 66M50 24L62 66" />
+        {facets.map((facet) => (
+          <line
+            key={facet.id}
+            className="portal-facet"
+            x1={facet.x1}
+            y1={facet.y1}
+            x2={facet.x2}
+            y2={facet.y2}
+            style={{ '--fd': `${facet.delay}s` }}
+          />
+        ))}
+      </svg>
+    </button>
+  );
+}
+
+function LinksArchive({ open, onClose }) {
+  const [phase, setPhase] = useState('closed');
+  const [typedCount, setTypedCount] = useState(0);
+  const bootLines = useMemo(
+    () => [
+      'C:\\QR> OPEN SATELLITE INDEX',
+      'DECOMPRESSING LINK_SIGILS FROM NULL CACHE',
+      '101 001 1110 00 110101 :: ROUTE TABLE BLEEDING',
+      'PORTAL_STATE: COLLAPSED / CLICKABLE / UNTRUSTED_LIGHT',
+      'RENDERING OUTBOUND STRUCTURES...',
+    ],
+    [],
+  );
+
+  useEffect(() => {
+    if (!open) {
+      setPhase('closed');
+      setTypedCount(0);
+      return undefined;
+    }
+
+    const timers = [
+      setTimeout(() => setPhase('cursor'), 0),
+      setTimeout(() => setPhase('typing'), 1300),
+    ];
+
+    let lineTimer;
+    timers.push(
+      setTimeout(() => {
+        let index = 0;
+        lineTimer = setInterval(() => {
+          index += 1;
+          setTypedCount(Math.min(index, satelliteLinks.length));
+          if (index >= satelliteLinks.length) {
+            clearInterval(lineTimer);
+            setPhase('open');
+          }
+        }, 260);
+      }, 1600),
+    );
+
+    return () => {
+      timers.forEach((timer) => clearTimeout(timer));
+      clearInterval(lineTimer);
+    };
+  }, [open]);
+
+  const visibleLinks = phase === 'open' ? satelliteLinks : satelliteLinks.slice(0, typedCount);
+
+  return (
+    <section className={`links-archive ${open ? 'is-open' : ''} is-${phase}`} aria-hidden={!open}>
+      <div className="links-cursor" aria-hidden="true" />
+      <div className="links-codefall" aria-hidden="true">
+        {bootLines.map((line, index) => (
+          <span key={line} style={{ '--ld': `${index * 0.12}s` }}>{line}</span>
+        ))}
+      </div>
+      <div className="links-constellation">
+        {visibleLinks.map((link, index) => (
+          <a
+            key={link.href}
+            href={link.href}
+            target="_blank"
+            rel="noreferrer"
+            onClick={onClose}
+            style={{
+              '--li': index,
+              '--ld': `${0.18 + index * 0.08}s`,
+            }}
+          >
+            <code>C:\SATELLITE\{String(index).padStart(2, '0')}&gt; open_route(</code>
+            <span>{link.label}</span>
+            <code>) :: {pick(binaryBursts, index)}</code>
+          </a>
+        ))}
+      </div>
+      <button className="requantify-button" type="button" onClick={onClose}>
+        REQUANTIFY
+      </button>
+    </section>
+  );
+}
+
 export function App() {
   const [terminalValue, setTerminalValue] = useState('');
   const [manualEvent, setManualEvent] = useState(null);
+  const [linksOpen, setLinksOpen] = useState(false);
 
   const handleExecute = useCallback(() => {
     setManualEvent({
@@ -1696,6 +1837,8 @@ export function App() {
       <CornerBlackouts />
       <SystemResetEvent manualEvent={manualEvent} />
       <PointerField />
+      <HiddenFractalPortal onOpen={() => setLinksOpen(true)} />
+      <LinksArchive open={linksOpen} onClose={() => setLinksOpen(false)} />
       <div className="bio-sigil" aria-hidden="true" />
       <div className="glitch-storm" aria-hidden="true" />
       <div className="scanlines" aria-hidden="true" />

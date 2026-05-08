@@ -66,7 +66,7 @@ textarea {
     conic-gradient(from 112deg at 50% 42%, transparent 0deg, rgba(94, 247, 255, 0.18) 48deg, transparent 72deg, rgba(255, 82, 190, 0.16) 133deg, transparent 171deg, rgba(255, 150, 67, 0.14) 219deg, transparent 284deg),
     radial-gradient(circle at 50% 42%, rgba(219, 255, 255, 0.15), transparent 9%, rgba(255, 75, 197, 0.06) 15%, transparent 29%);
   mix-blend-mode: screen;
-  opacity: 0.58;
+  opacity: 0.36;
   animation: deity-lens 9s ease-in-out infinite;
 }
 
@@ -75,7 +75,7 @@ textarea {
     linear-gradient(90deg, transparent 0 8%, rgba(86, 246, 255, 0.045) 8% 8.35%, transparent 8.35% 19%, rgba(255, 78, 188, 0.04) 19% 19.25%, transparent 19.25% 100%),
     repeating-linear-gradient(67deg, transparent 0 28px, rgba(255, 255, 255, 0.025) 29px, transparent 30px);
   mix-blend-mode: screen;
-  opacity: 0.52;
+  opacity: 0.32;
   animation: circuit-possession 5.7s steps(2) infinite;
 }
 
@@ -117,9 +117,11 @@ textarea {
 .hemisphere-cyber {
   right: 0;
   background:
+    repeating-linear-gradient(30deg, transparent 0 17px, rgba(91, 248, 255, 0.09) 18px 19px, transparent 20px 38px),
+    repeating-linear-gradient(150deg, transparent 0 17px, rgba(182, 140, 255, 0.08) 18px 19px, transparent 20px 38px),
     linear-gradient(90deg, transparent, rgba(81, 248, 255, 0.09)),
-    repeating-linear-gradient(90deg, transparent 0 28px, rgba(91, 248, 255, 0.14) 29px 31px, transparent 32px 58px),
-    repeating-linear-gradient(0deg, transparent 0 38px, rgba(134, 118, 255, 0.1) 39px 41px, transparent 42px 76px),
+    repeating-linear-gradient(90deg, transparent 0 22px, rgba(91, 248, 255, 0.13) 23px 24px, transparent 25px 46px),
+    repeating-linear-gradient(0deg, transparent 0 30px, rgba(134, 118, 255, 0.09) 31px 32px, transparent 33px 62px),
     radial-gradient(circle at 72% 36%, rgba(92, 248, 255, 0.14), transparent 20%);
   mask-image: linear-gradient(90deg, transparent 0, #000 18% 100%);
   animation: hemisphere-cyber-scan 5.8s steps(2) infinite;
@@ -388,12 +390,12 @@ textarea {
   background:
     radial-gradient(circle at 18% 28%, rgba(98, 255, 143, 0.13), transparent 26%),
     repeating-linear-gradient(0deg, rgba(137, 255, 164, 0.08) 0 1px, transparent 1px 5px),
-    rgba(0, 12, 4, 0.72);
+    rgba(0, 7, 3, 0.78);
   box-shadow:
     0 0 0 1px rgba(166, 255, 185, 0.14) inset,
     0 0 28px rgba(108, 255, 142, 0.28),
     0 0 70px rgba(56, 255, 116, 0.12);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(3px);
   animation: terminal-pop 4.6s steps(2) infinite;
   transition:
     opacity 80ms steps(1),
@@ -580,7 +582,7 @@ textarea {
     linear-gradient(180deg, transparent 0 42%, rgba(255, 255, 255, 0.32) 43% 46%, transparent 47% 100%);
   background-size: 260% 100%, auto;
   mix-blend-mode: screen;
-  opacity: 0.18;
+  opacity: 0.12;
   animation: button-corrupt 2.9s steps(2) infinite, arcade-rainbow 4.2s linear infinite;
 }
 
@@ -590,7 +592,7 @@ textarea {
   z-index: -1;
   content: "";
   border: 1px solid rgba(82, 246, 255, 0.18);
-  opacity: 0.72;
+  opacity: 0.5;
   transform: skewX(-12deg);
 }
 
@@ -649,7 +651,7 @@ textarea {
   pointer-events: none;
   overflow: hidden;
   mix-blend-mode: screen;
-  opacity: 0.62;
+  opacity: 0.52;
 }
 
 .wireframe-composite::before {
@@ -659,7 +661,7 @@ textarea {
   background:
     linear-gradient(90deg, rgba(255, 79, 194, 0.07), transparent 44%, rgba(255, 255, 255, 0.05) 49% 51%, transparent 56%, rgba(89, 248, 255, 0.08)),
     repeating-linear-gradient(90deg, transparent 0 46px, rgba(255, 255, 255, 0.018) 47px, transparent 48px 96px);
-  opacity: 0.58;
+  opacity: 0.28;
   animation: wireframe-field-rift 4.1s steps(2) infinite;
 }
 
@@ -669,7 +671,6 @@ textarea {
   left: var(--wx);
   top: var(--wy);
   display: block;
-  width: clamp(118px, 12vw, 218px);
   color: var(--wire);
   translate: -50% -50%;
   scale: var(--ws);
@@ -685,10 +686,15 @@ textarea {
 }
 
 .chem-wireframe {
+  width: clamp(118px, 12vw, 218px);
+}
+
+.chem-wireframe {
   transform: rotate(-7deg);
 }
 
 .circuit-wireframe {
+  width: clamp(86px, 8.2vw, 154px);
   transform: rotate(5deg) skewX(-2deg);
 }
 
@@ -731,17 +737,17 @@ textarea {
 
 .circuit-wireframe::before {
   position: absolute;
-  inset: 12% -4% 20%;
+  inset: 6% -8% 12%;
   z-index: -1;
   content: "";
   background:
     linear-gradient(30deg, transparent 0 46%, color-mix(in srgb, var(--wire), transparent 72%) 47% 49%, transparent 50%),
     linear-gradient(150deg, transparent 0 46%, color-mix(in srgb, var(--wire), transparent 78%) 47% 49%, transparent 50%),
-    repeating-linear-gradient(90deg, transparent 0 5px, color-mix(in srgb, var(--wire), transparent 78%) 6px 7px, transparent 8px 13px);
-  background-size: 24px 28px, 24px 28px, 100% 100%;
+    repeating-linear-gradient(90deg, transparent 0 3px, color-mix(in srgb, var(--wire), transparent 78%) 4px 5px, transparent 6px 10px),
+    repeating-linear-gradient(0deg, transparent 0 5px, color-mix(in srgb, var(--wire), transparent 84%) 6px 7px, transparent 8px 13px);
+  background-size: 17px 20px, 17px 20px, 100% 100%, 100% 100%;
   border: 1px solid color-mix(in srgb, var(--wire), transparent 74%);
-  opacity: 0.34;
-  filter: blur(0.2px);
+  opacity: 0.42;
   animation: hex-board-static 1.9s steps(2) infinite;
 }
 
@@ -751,7 +757,12 @@ textarea {
 
 .circuit-wireframe .parallel-traces {
   opacity: 0.72;
-  stroke-width: 1.15;
+  stroke-width: 0.95;
+}
+
+.circuit-wireframe .micro-traces {
+  opacity: 0.76;
+  stroke-width: 0.82;
 }
 
 .chem-wireframe .electron {
@@ -1238,10 +1249,9 @@ textarea {
   z-index: 7;
   pointer-events: none;
   background:
-    radial-gradient(circle at var(--px) var(--py), rgba(123, 255, 225, 0.16), transparent 0 8%, rgba(255, 94, 203, 0.08) 10%, transparent 18%),
-    linear-gradient(90deg, transparent, rgba(121, 255, 225, 0.02), transparent);
+    radial-gradient(circle at var(--px) var(--py), rgba(123, 255, 225, 0.1), transparent 0 6%, rgba(255, 94, 203, 0.04) 8%, transparent 14%);
   mix-blend-mode: screen;
-  opacity: 0.55;
+  opacity: 0.32;
   transition: opacity 120ms steps(2);
 }
 
@@ -1260,6 +1270,293 @@ textarea {
   animation: pointer-quantum-click 950ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+.hidden-fractal-portal {
+  position: fixed;
+  top: 24%;
+  right: 9%;
+  z-index: 8;
+  width: clamp(92px, 8.6vw, 152px);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  color: #dfffff;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.48;
+  pointer-events: auto;
+  filter:
+    drop-shadow(0 0 14px rgba(105, 248, 255, 0.58))
+    drop-shadow(0 0 30px rgba(255, 89, 202, 0.36));
+  mix-blend-mode: screen;
+  transform-style: preserve-3d;
+  animation:
+    portal-drift 17s ease-in-out infinite,
+    portal-quantum-veil 4.8s steps(3) infinite,
+    portal-rainbow 6.5s linear infinite;
+}
+
+.hidden-fractal-portal:hover,
+.hidden-fractal-portal:focus-visible {
+  opacity: 0.94;
+  outline: 0;
+}
+
+.hidden-fractal-portal::before {
+  position: absolute;
+  inset: 8%;
+  content: "";
+  border: 1px solid rgba(220, 255, 245, 0.42);
+  clip-path: polygon(50% 0, 82% 18%, 100% 50%, 82% 82%, 50% 100%, 18% 82%, 0 50%, 18% 18%);
+  opacity: 0.24;
+  animation: portal-hint-pulse 3.8s ease-in-out infinite;
+}
+
+.hidden-fractal-portal svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.hidden-fractal-portal polygon,
+.hidden-fractal-portal path,
+.hidden-fractal-portal line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+
+.hidden-fractal-portal .portal-core {
+  stroke-width: 1.8;
+}
+
+.hidden-fractal-portal .portal-inner {
+  stroke: #ff8bd8;
+}
+
+.hidden-fractal-portal .portal-fractal {
+  stroke: #9dff8b;
+  opacity: 0.65;
+}
+
+.hidden-fractal-portal .portal-facet {
+  opacity: 0.48;
+  animation: portal-facet-glitch 1.7s steps(2) infinite;
+  animation-delay: var(--fd);
+}
+
+.links-archive {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  color: #dffffb;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(106, 248, 255, 0.11), transparent 18%),
+    radial-gradient(circle at 60% 62%, rgba(255, 87, 197, 0.1), transparent 24%),
+    repeating-linear-gradient(0deg, rgba(141, 255, 148, 0.055) 0 1px, transparent 1px 7px),
+    #000;
+  opacity: 0;
+  clip-path: inset(49% 0 49% 0);
+  transition:
+    opacity 160ms steps(2),
+    clip-path 520ms steps(6);
+}
+
+.links-archive.is-open {
+  pointer-events: auto;
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+}
+
+.links-archive.is-cursor {
+  animation: links-power-collapse 520ms steps(4) both;
+}
+
+.links-archive.is-typing,
+.links-archive.is-open {
+  animation: links-crt-hold 460ms steps(2) infinite;
+}
+
+.links-archive::before,
+.links-archive::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.links-archive::before {
+  background:
+    linear-gradient(90deg, transparent 0 14%, rgba(98, 248, 255, 0.12) 14.2% 14.7%, transparent 15% 78%, rgba(255, 85, 202, 0.12) 78.4% 79%, transparent 79.4%),
+    repeating-linear-gradient(90deg, transparent 0 46px, rgba(255, 255, 255, 0.025) 47px 48px, transparent 49px 94px);
+  opacity: 0.56;
+  animation: links-field-jitter 1.8s steps(2) infinite;
+}
+
+.links-archive::after {
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0 44%, rgba(0, 0, 0, 0.72) 80%, #000 100%),
+    repeating-conic-gradient(from 0deg at 50% 50%, transparent 0 58deg, rgba(171, 255, 222, 0.12) 59deg 60deg, transparent 61deg 120deg);
+  opacity: 0.44;
+}
+
+.links-cursor {
+  position: absolute;
+  top: clamp(18px, 4vh, 48px);
+  left: clamp(16px, 3vw, 42px);
+  z-index: 3;
+  width: 14px;
+  height: 34px;
+  background: #9cff7e;
+  box-shadow:
+    0 0 18px rgba(156, 255, 126, 0.84),
+    0 0 62px rgba(99, 255, 126, 0.3);
+  opacity: 0;
+  animation: dead-caret 0.82s steps(1) infinite;
+}
+
+.links-archive.is-cursor .links-cursor {
+  opacity: 1;
+}
+
+.links-codefall {
+  position: absolute;
+  top: clamp(20px, 7vh, 74px);
+  left: clamp(18px, 5vw, 72px);
+  z-index: 1;
+  display: grid;
+  gap: 8px;
+  max-width: min(680px, 82vw);
+  color: #aaff8c;
+  font-family: "Lucida Console", "Courier New", ui-monospace, monospace;
+  font-size: clamp(0.55rem, 0.95vw, 0.8rem);
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(140, 255, 111, 0.74);
+  opacity: 0;
+}
+
+.links-archive.is-typing .links-codefall,
+.links-archive.is-open .links-codefall {
+  opacity: 1;
+}
+
+.links-codefall span {
+  opacity: 0;
+  animation: link-code-type 0.7s steps(2) forwards;
+  animation-delay: var(--ld);
+}
+
+.links-constellation {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: clamp(8px, 1.2vw, 14px);
+  width: min(880px, 90vw);
+  opacity: 0;
+}
+
+.links-archive.is-typing .links-constellation,
+.links-archive.is-open .links-constellation {
+  opacity: 1;
+}
+
+.links-constellation a {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-height: 0;
+  padding: 4px 0;
+  border: 0;
+  color: rgba(175, 255, 186, 0.78);
+  text-decoration: none;
+  background: transparent;
+  box-shadow: none;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(-22px) skewX(-6deg);
+  animation:
+    link-materialize 850ms steps(5) forwards,
+    link-card-glitch 3.2s steps(2) infinite;
+  animation-delay: var(--ld), calc(var(--li) * -0.33s);
+}
+
+.links-constellation a::before {
+  position: absolute;
+  inset: 42% 0 42%;
+  content: "";
+  background:
+    linear-gradient(90deg, transparent, rgba(172, 255, 142, 0.42), transparent);
+  opacity: 0;
+  mix-blend-mode: screen;
+  animation: link-card-scan 2.4s steps(2) infinite;
+}
+
+.links-constellation a code,
+.links-constellation a span {
+  position: relative;
+  z-index: 1;
+  font-family: "Lucida Console", "Courier New", ui-monospace, monospace;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.links-constellation a code {
+  color: rgba(161, 255, 140, 0.72);
+  font-size: clamp(0.52rem, 0.82vw, 0.72rem);
+  font-weight: 400;
+  text-shadow: 0 0 10px rgba(141, 255, 111, 0.6);
+}
+
+.links-constellation a span {
+  color: #ffffff;
+  font-size: clamp(0.72rem, 1.1vw, 0.98rem);
+  font-weight: 900;
+  text-shadow:
+    2px 0 0 rgba(255, 91, 202, 0.7),
+    -2px 0 0 rgba(93, 248, 255, 0.7),
+    0 0 14px rgba(255, 255, 255, 0.52);
+}
+
+.links-constellation a:hover span,
+.links-constellation a:focus-visible span {
+  color: #9ffff4;
+}
+
+.requantify-button {
+  position: absolute;
+  right: clamp(18px, 5vw, 72px);
+  bottom: clamp(18px, 6vh, 64px);
+  z-index: 3;
+  padding: 13px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 8px;
+  color: #ffffff;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.72)),
+    linear-gradient(90deg, rgba(255, 80, 202, 0.28), rgba(99, 248, 255, 0.24), rgba(166, 255, 106, 0.24), rgba(255, 80, 202, 0.28));
+  background-size: auto, 240% 100%;
+  cursor: pointer;
+  font-family: "Lucida Console", "Courier New", ui-monospace, monospace;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-shadow:
+    2px 0 rgba(255, 85, 202, 0.8),
+    -2px 0 rgba(90, 248, 255, 0.8);
+  animation: arcade-rainbow 4.2s linear infinite, button-command-phase 2.7s steps(2) infinite;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.links-archive.is-open .requantify-button {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .bio-sigil {
   position: fixed;
   top: 42%;
@@ -1275,7 +1572,7 @@ textarea {
     conic-gradient(from 0deg, transparent 0 7deg, rgba(95, 248, 255, 0.22) 8deg 9deg, transparent 10deg 27deg, rgba(255, 80, 190, 0.18) 28deg 30deg, transparent 31deg 45deg);
   mask-image: radial-gradient(circle, transparent 0 12%, #000 13% 64%, transparent 68%);
   mix-blend-mode: screen;
-  opacity: 0.64;
+  opacity: 0.42;
   filter: blur(0.2px);
   animation: sigil-turn 18s linear infinite, sigil-breathe 5.2s ease-in-out infinite;
 }
@@ -1289,7 +1586,7 @@ textarea {
     linear-gradient(0deg, transparent 0 20%, rgba(95, 248, 255, 0.12) 20.5% 21.2%, transparent 21.7% 49%, rgba(255, 70, 190, 0.14) 49.4% 50%, transparent 50.5% 100%),
     linear-gradient(90deg, transparent 0 58%, rgba(255, 156, 75, 0.12) 58.2% 58.6%, transparent 59% 100%);
   mix-blend-mode: screen;
-  opacity: 0.24;
+  opacity: 0.14;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   animation: storm-break 3.2s steps(1) infinite;
 }
@@ -1309,7 +1606,7 @@ textarea {
     ),
     linear-gradient(90deg, transparent, rgba(94, 247, 255, 0.035), transparent);
   mix-blend-mode: screen;
-  opacity: 0.64;
+  opacity: 0.42;
 }
 
 .scanlines::after {
@@ -1325,15 +1622,15 @@ textarea {
 @keyframes deity-lens {
   0%,
   100% {
-    opacity: 0.38;
+    opacity: 0.24;
     transform: scale(0.98) rotate(0deg);
   }
   45% {
-    opacity: 0.72;
+    opacity: 0.42;
     transform: scale(1.04) rotate(2deg);
   }
   52% {
-    opacity: 0.46;
+    opacity: 0.28;
     transform: scale(1.01) rotate(-1deg);
   }
 }
@@ -1342,18 +1639,18 @@ textarea {
   0%,
   100% {
     transform: translate3d(0, 0, 0);
-    opacity: 0.42;
+    opacity: 0.24;
   }
   18% {
     transform: translate3d(1.2vw, 0, 0);
-    opacity: 0.62;
+    opacity: 0.38;
   }
   19% {
     transform: translate3d(-0.7vw, 0, 0);
   }
   74% {
     transform: translate3d(0, 1vh, 0);
-    opacity: 0.36;
+    opacity: 0.22;
   }
 }
 
@@ -1920,11 +2217,11 @@ textarea {
 @keyframes sigil-breathe {
   0%,
   100% {
-    opacity: 0.42;
+    opacity: 0.24;
     scale: 0.96;
   }
   50% {
-    opacity: 0.76;
+    opacity: 0.46;
     scale: 1.04;
   }
 }
@@ -2193,6 +2490,215 @@ textarea {
   }
 }
 
+@keyframes portal-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) scale(0.78);
+  }
+  23% {
+    transform: translate3d(-1.4vw, 1vh, 18px) rotateX(18deg) rotateY(-26deg) scale(1.05);
+  }
+  44% {
+    transform: translate3d(0.8vw, -1.8vh, -8px) rotateX(-12deg) rotateY(22deg) scale(0.64);
+  }
+  67% {
+    transform: translate3d(-0.5vw, 0.6vh, 26px) rotateX(24deg) rotateY(34deg) scale(1.16);
+  }
+}
+
+@keyframes portal-quantum-veil {
+  0%,
+  100% {
+    opacity: 0.36;
+    clip-path: inset(0 0 0 0);
+  }
+  31% {
+    opacity: 0.72;
+    clip-path: inset(0 0 0 0);
+  }
+  32% {
+    opacity: 0.18;
+    clip-path: inset(24% 0 46% 0);
+  }
+  72% {
+    opacity: 0.58;
+  }
+}
+
+@keyframes portal-hint-pulse {
+  0%,
+  100% {
+    opacity: 0.12;
+    scale: 0.9;
+    filter: hue-rotate(0deg);
+  }
+  48% {
+    opacity: 0.5;
+    scale: 1.12;
+    filter: hue-rotate(140deg);
+  }
+  49% {
+    opacity: 0.18;
+    transform: translateX(5px) skewX(-12deg);
+  }
+}
+
+@keyframes portal-rainbow {
+  to {
+    filter:
+      hue-rotate(360deg)
+      drop-shadow(0 0 10px rgba(105, 248, 255, 0.42))
+      drop-shadow(0 0 22px rgba(255, 89, 202, 0.24));
+  }
+}
+
+@keyframes portal-facet-glitch {
+  0%,
+  100% {
+    opacity: 0.16;
+    transform: translateX(0);
+  }
+  24% {
+    opacity: 0.78;
+    transform: translateX(2px);
+  }
+  25% {
+    opacity: 0.08;
+    transform: translateX(-4px) skewX(-18deg);
+  }
+}
+
+@keyframes links-collapse-open {
+  0% {
+    clip-path: inset(49% 0 49% 0);
+    filter: brightness(1.9);
+  }
+  16% {
+    clip-path: inset(12% 0 72% 0);
+    transform: translateX(-18px);
+  }
+  34% {
+    clip-path: inset(70% 0 12% 0);
+    transform: translateX(14px);
+  }
+  62% {
+    clip-path: inset(0 0 0 0);
+    transform: translateX(-6px);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    filter: brightness(1);
+    transform: translateX(0);
+  }
+}
+
+@keyframes links-power-collapse {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 0 0 0);
+  }
+  14% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+  36% {
+    clip-path: inset(42% 0 42% 0);
+  }
+  62% {
+    clip-path: inset(49% 0 49% 0);
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes links-crt-hold {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.12) contrast(1.08);
+  }
+}
+
+@keyframes links-field-jitter {
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: 0.34;
+  }
+  43% {
+    transform: translateX(11px);
+    opacity: 0.62;
+  }
+  44% {
+    transform: translateX(-8px) skewX(-9deg);
+    opacity: 0.16;
+  }
+}
+
+@keyframes link-code-type {
+  from {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes link-materialize {
+  0% {
+    opacity: 0;
+    transform: translateX(-22px) skewX(-6deg);
+  }
+  28% {
+    opacity: 0.42;
+    transform: translateX(12px) skewX(12deg);
+  }
+  52% {
+    opacity: 0.12;
+    transform: translateX(-8px) skewX(-16deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) skewX(0deg);
+  }
+}
+
+@keyframes link-card-glitch {
+  0%,
+  100% {
+    filter: hue-rotate(0deg);
+  }
+  33% {
+    filter: hue-rotate(28deg);
+  }
+  34% {
+    transform: translateX(5px);
+    filter: hue-rotate(180deg);
+  }
+}
+
+@keyframes link-card-scan {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  46% {
+    opacity: 0.7;
+    transform: translateX(80%);
+  }
+  47% {
+    opacity: 0.12;
+    transform: translateX(-20%);
+  }
+}
+
 @keyframes floral-output {
   0%,
   100% {
@@ -2269,37 +2775,37 @@ textarea {
 @keyframes storm-break {
   0%,
   100% {
-    opacity: 0.1;
+    opacity: 0.06;
     transform: translateX(0);
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
   15% {
-    opacity: 0.42;
+    opacity: 0.25;
     transform: translateX(-10px);
     clip-path: polygon(0 8%, 100% 4%, 100% 18%, 0 22%, 0 46%, 100% 42%, 100% 52%, 0 56%, 0 100%, 100% 100%, 100% 0, 0 0);
   }
   16% {
-    opacity: 0.18;
+    opacity: 0.1;
     transform: translateX(7px);
   }
   61% {
-    opacity: 0.36;
+    opacity: 0.2;
     transform: translateY(4px);
     clip-path: polygon(0 0, 100% 0, 100% 34%, 0 29%, 0 61%, 100% 66%, 100% 100%, 0 100%);
   }
   62% {
-    opacity: 0.12;
+    opacity: 0.08;
   }
 }
 
 @keyframes chroma-breath {
   0%,
   100% {
-    opacity: 0.36;
+    opacity: 0.2;
     filter: hue-rotate(0deg);
   }
   50% {
-    opacity: 0.72;
+    opacity: 0.38;
     filter: hue-rotate(22deg);
   }
 }
