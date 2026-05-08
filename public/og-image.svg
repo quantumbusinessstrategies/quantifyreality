@@ -1,0 +1,50 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="QUANTIFYREALITY preview card">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="60" x2="1080" y2="570" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#05030D"/>
+      <stop offset="0.52" stop-color="#0B1020"/>
+      <stop offset="1" stop-color="#190722"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(280 180) rotate(52) scale(220 180)">
+      <stop stop-color="#5CF7FF" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#5CF7FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(920 420) rotate(-40) scale(280 220)">
+      <stop stop-color="#FF5ECB" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#FF5ECB" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="title" x1="180" y1="190" x2="1020" y2="430" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F6FFFE"/>
+      <stop offset="0.34" stop-color="#79FFDF"/>
+      <stop offset="0.66" stop-color="#FF72CC"/>
+      <stop offset="1" stop-color="#FFD06F"/>
+    </linearGradient>
+    <filter id="blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glowA)"/>
+  <rect width="1200" height="630" fill="url(#glowB)"/>
+  <g opacity="0.28" filter="url(#blur)">
+    <circle cx="310" cy="150" r="95" fill="#5CF7FF"/>
+    <circle cx="915" cy="435" r="128" fill="#FF5ECB"/>
+  </g>
+  <g opacity="0.22">
+    <path d="M76 100H1124" stroke="#8FFBFF" stroke-opacity="0.3"/>
+    <path d="M76 530H1124" stroke="#FF86D1" stroke-opacity="0.24"/>
+    <path d="M100 132V498" stroke="#8FFBFF" stroke-opacity="0.16"/>
+    <path d="M1100 132V498" stroke="#FF86D1" stroke-opacity="0.16"/>
+  </g>
+  <text x="82" y="114" fill="#DFFBFF" font-family="Arial, Helvetica, sans-serif" font-size="20" letter-spacing="6">QUANTIFYREALITY</text>
+  <text x="82" y="258" fill="url(#title)" font-family="Arial, Helvetica, sans-serif" font-size="82" font-weight="700" letter-spacing="1.5">AI, quantum,</text>
+  <text x="82" y="350" fill="url(#title)" font-family="Arial, Helvetica, sans-serif" font-size="82" font-weight="700" letter-spacing="1.5">and domain signals</text>
+  <text x="82" y="434" fill="#D8E8F3" font-family="Arial, Helvetica, sans-serif" font-size="30" opacity="0.88">Indexable homepage · sales route · marketplace ready</text>
+  <text x="82" y="486" fill="#A7BDCF" font-family="Arial, Helvetica, sans-serif" font-size="24" opacity="0.86">quantifyreality.com</text>
+  <g transform="translate(832 96)">
+    <rect x="0" y="0" width="290" height="112" rx="18" fill="#0E1524" fill-opacity="0.82" stroke="#5CF7FF" stroke-opacity="0.35"/>
+    <text x="22" y="38" fill="#79FFDF" font-family="Arial, Helvetica, sans-serif" font-size="19" letter-spacing="3">LIVE / INDEXABLE</text>
+    <text x="22" y="72" fill="#F6FFFE" font-family="Arial, Helvetica, sans-serif" font-size="24">AI + quantum brand</text>
+    <text x="22" y="96" fill="#FFB8E0" font-family="Arial, Helvetica, sans-serif" font-size="16">Domain discovery and sales signals</text>
+  </g>
+</svg>

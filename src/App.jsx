@@ -1757,11 +1757,11 @@ function HiddenFractalPortal({ onOpen }) {
   }, []);
 
   return (
-    <button
-      className="hidden-fractal-portal"
-      type="button"
-      aria-label="Open quantum links"
-      onClick={onOpen}
+      <button
+        className="hidden-fractal-portal"
+        type="button"
+        aria-label="Open quantum links"
+        onClick={onOpen}
     >
       <svg viewBox="0 0 100 100" aria-hidden="true">
         <polygon className="portal-button-ring" points="50,0 88,14 100,50 88,86 50,100 12,86 0,50 12,14" />
@@ -1795,6 +1795,14 @@ function HiddenFractalPortal({ onOpen }) {
             <polygon key={index} points={triangle.points} />
           ))}
         </g>
+        <g className="portal-posess-badge" aria-hidden="true">
+          <text className="portal-posess-left" x="4" y="26" textAnchor="start">
+            POSESS
+          </text>
+          <text className="portal-posess-right" x="96" y="76" textAnchor="end">
+            POSESS
+          </text>
+        </g>
         <text className="portal-cent-mark" x="50" y="56" textAnchor="middle" aria-hidden="true">
           ¢
         </text>
@@ -1809,7 +1817,22 @@ function HiddenFractalPortal({ onOpen }) {
             style={{ '--fd': `${facet.delay}s` }}
           />
         ))}
+        <g className="portal-posess-badge portal-posess-badge-top" aria-hidden="true">
+          <text className="portal-posess-left" x="4" y="26" textAnchor="start">
+            POSESS
+          </text>
+          <text className="portal-posess-right" x="96" y="76" textAnchor="end">
+            POSESS
+          </text>
+        </g>
+        <text className="portal-posess-center" x="50" y="54" textAnchor="middle" aria-hidden="true">
+          POSESS
+        </text>
       </svg>
+      <div className="portal-posess-strap" aria-hidden="true">
+        <span className="portal-posess-strap-left">POSESS</span>
+        <span className="portal-posess-strap-right">POSESS</span>
+      </div>
     </button>
   );
 }
@@ -1895,9 +1918,16 @@ function LinksArchive({ open, onClose, onOpenBranding }) {
         <span>CONSUMERISTIC_BRANDING</span>
         <code>:: {pick(binaryBursts, visibleLinks.length)}</code>
       </button>
-      <button className="requantify-button" type="button" onClick={onClose}>
-        REQUANTIFY
-      </button>
+      <div className="archive-footer-stack">
+        <button className="requantify-button" type="button" onClick={onClose}>
+          REQUANTIFY
+        </button>
+        <a className="archive-copyright-link" href="/copyright/" onClick={onClose}>
+          <span className="archive-copyright-mark">©</span>
+          <span>2026 QUANTIFYREALITY</span>
+          <span className="archive-copyright-label">copyright</span>
+        </a>
+      </div>
     </section>
   );
 }
@@ -1981,14 +2011,115 @@ function DomainSalesArchive({ open, onClose }) {
           </article>
         ))}
       </div>
-      <button className="requantify-button" type="button" onClick={onClose}>
-        REQUANTIFY
-      </button>
+      <div className="archive-footer-stack">
+        <button className="requantify-button" type="button" onClick={onClose}>
+          REQUANTIFY
+        </button>
+        <a className="archive-copyright-link" href="/copyright/" onClick={onClose}>
+          <span className="archive-copyright-mark">©</span>
+          <span>2026 QUANTIFYREALITY</span>
+          <span className="archive-copyright-label">copyright</span>
+        </a>
+      </div>
     </section>
   );
 }
 
+function getPathname() {
+  if (typeof window === 'undefined') return '/';
+  const path = window.location.pathname.replace(/\/+$/, '');
+  return path || '/';
+}
+
+function RouteCopyrightBadge() {
+  return (
+    <a className="route-copyright-badge" href="/copyright/" aria-label="Open copyright notice">
+      <span className="route-copyright-mark">©</span>
+      <span>2026 QUANTIFYREALITY</span>
+      <span className="route-copyright-label">copyright</span>
+    </a>
+  );
+}
+
+function RoutePage({
+  eyebrow,
+  title,
+  description,
+  children,
+  hiddenBadge = false,
+  notice = null,
+  topLinks = [],
+  footerAction = (
+    <a className="route-requantify-link" href="/">
+      REQUANTIFY
+    </a>
+  ),
+}) {
+  return (
+    <main className="route-page">
+      <RouteFooterStack action={footerAction} />
+      <section className="route-panel">
+        <RouteTopLinks links={topLinks} />
+        <p className="route-eyebrow">{eyebrow}</p>
+        <h1 className="route-title">{title}</h1>
+        <p className="route-description">{description}</p>
+        {notice ? <div className="route-notice">{notice}</div> : null}
+        {children}
+      </section>
+    </main>
+  );
+}
+
+function RouteFooterStack({ action = null }) {
+  return (
+    <div className="route-footer-stack" aria-label="Ownership links">
+      <RouteCopyrightBadge />
+      {action}
+    </div>
+  );
+}
+
+function RouteTopLinks({ links = [] }) {
+  if (!links.length) return null;
+
+  return (
+    <div className="route-top-links" aria-label="Page links">
+      {links.map((link) => (
+        <a key={`${link.href}:${link.label}`} href={link.href}>
+          {link.label}
+        </a>
+      ))}
+    </div>
+  );
+}
+
+function EmbeddedRoutePage({ src, title }) {
+  return <iframe className="embedded-route-frame" src={src} title={title} />;
+}
+
+function SalesRoutePage() {
+  return <EmbeddedRoutePage src="/sales/index.html" title="QUANTIFYREALITY Sales Route" />;
+}
+
+function BusinessesRoutePage() {
+  return <EmbeddedRoutePage src="/businesses/index.html" title="QUANTIFYREALITY Business Connections" />;
+}
+
+function CopyrightNoticePage() {
+  return <EmbeddedRoutePage src="/copyright/index.html" title="QUANTIFYREALITY Copyright Notice" />;
+}
+
+function LegalNoticePage() {
+  return <EmbeddedRoutePage src="/legal/index.html" title="QUANTIFYREALITY Legal Surface" />;
+}
+
 export function App() {
+  const pathname = getPathname();
+  if (pathname === '/sales') return <SalesRoutePage />;
+  if (pathname === '/businesses') return <BusinessesRoutePage />;
+  if (pathname === '/copyright') return <CopyrightNoticePage />;
+  if (pathname === '/legal') return <LegalNoticePage />;
+
   const [terminalValue, setTerminalValue] = useState('');
   const [manualEvent, setManualEvent] = useState(null);
   const [linksOpen, setLinksOpen] = useState(false);
