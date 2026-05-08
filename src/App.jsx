@@ -1688,16 +1688,34 @@ function PointerField() {
 function HiddenFractalPortal({ onOpen }) {
   const facets = useMemo(
     () =>
-      Array.from({ length: 34 }, (_, index) => ({
+      Array.from({ length: 48 }, (_, index) => ({
         id: index,
-        x1: 50 + Math.cos((index / 34) * Math.PI * 2) * (10 + (index % 4) * 7),
-        y1: 50 + Math.sin((index / 34) * Math.PI * 2) * (8 + (index % 5) * 6),
-        x2: 50 + Math.cos(((index + 9) / 34) * Math.PI * 2) * (18 + (index % 6) * 4),
-        y2: 50 + Math.sin(((index + 9) / 34) * Math.PI * 2) * (16 + (index % 3) * 7),
+        x1: 50 + Math.cos((index / 48) * Math.PI * 2) * (9 + (index % 4) * 8),
+        y1: 50 + Math.sin((index / 48) * Math.PI * 2) * (8 + (index % 5) * 7),
+        x2: 50 + Math.cos(((index + 13) / 48) * Math.PI * 2) * (16 + (index % 6) * 5),
+        y2: 50 + Math.sin(((index + 13) / 48) * Math.PI * 2) * (15 + (index % 3) * 8),
         delay: index * -0.09,
       })),
     [],
   );
+  const triangles = useMemo(() => {
+    const items = [];
+    const addTriangle = (x, y, size, depth) => {
+      if (depth === 0) {
+        const height = size * 0.86;
+        items.push({
+          points: `${x},${y - height / 2} ${x - size / 2},${y + height / 2} ${x + size / 2},${y + height / 2}`,
+        });
+        return;
+      }
+      addTriangle(x, y - size * 0.19, size / 2, depth - 1);
+      addTriangle(x - size * 0.25, y + size * 0.24, size / 2, depth - 1);
+      addTriangle(x + size * 0.25, y + size * 0.24, size / 2, depth - 1);
+    };
+
+    addTriangle(50, 50, 54, 2);
+    return items;
+  }, []);
 
   return (
     <button
@@ -1707,11 +1725,17 @@ function HiddenFractalPortal({ onOpen }) {
       onClick={onOpen}
     >
       <svg viewBox="0 0 100 100" aria-hidden="true">
+        <polygon className="portal-button-ring" points="50,0 88,14 100,50 88,86 50,100 12,86 0,50 12,14" />
         <polygon className="portal-core" points="50,5 84,25 84,75 50,95 16,75 16,25" />
         <polygon className="portal-octa-a" points="50,5 84,50 50,95 16,50" />
         <polygon className="portal-octa-b" points="16,25 84,25 84,75 16,75" />
         <polygon className="portal-inner" points="50,24 68,38 62,66 38,66 32,38" />
         <path className="portal-fractal" d="M50 5L50 95M16 25L84 75M84 25L16 75M16 50H84M32 38L68 38M38 66L62 66M50 24L38 66M50 24L62 66" />
+        <g className="portal-sierpinski">
+          {triangles.map((triangle, index) => (
+            <polygon key={index} points={triangle.points} />
+          ))}
+        </g>
         {facets.map((facet) => (
           <line
             key={facet.id}

@@ -1278,17 +1278,38 @@ textarea {
   width: clamp(92px, 8.6vw, 152px);
   aspect-ratio: 1;
   padding: 0;
-  border: 0;
+  border: 1px solid rgba(211, 255, 246, 0.24);
+  border-radius: 50%;
   color: #dfffff;
-  background: transparent;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(195, 255, 232, 0.13), transparent 38%),
+    conic-gradient(
+      from 120deg,
+      rgba(117, 246, 255, 0.12),
+      rgba(255, 92, 217, 0.16),
+      rgba(247, 255, 124, 0.1),
+      rgba(155, 255, 142, 0.13),
+      rgba(117, 246, 255, 0.12)
+    );
   cursor: pointer;
-  opacity: 0.48;
+  opacity: 0.62;
   pointer-events: auto;
+  perspective: 720px;
+  box-shadow:
+    inset 0 0 18px rgba(165, 255, 238, 0.13),
+    inset 0 0 34px rgba(255, 83, 205, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 0 24px rgba(105, 248, 255, 0.26),
+    0 0 48px rgba(255, 89, 202, 0.16);
   filter:
     drop-shadow(0 0 14px rgba(105, 248, 255, 0.58))
     drop-shadow(0 0 30px rgba(255, 89, 202, 0.36));
   mix-blend-mode: screen;
   transform-style: preserve-3d;
+  transition:
+    opacity 180ms ease,
+    scale 220ms ease,
+    box-shadow 220ms ease;
   animation:
     portal-drift 17s ease-in-out infinite,
     portal-quantum-veil 4.8s steps(3) infinite,
@@ -1297,8 +1318,15 @@ textarea {
 
 .hidden-fractal-portal:hover,
 .hidden-fractal-portal:focus-visible {
-  opacity: 0.94;
+  opacity: 0.98;
   outline: 0;
+  scale: 1.07;
+  box-shadow:
+    inset 0 0 22px rgba(210, 255, 246, 0.2),
+    inset 0 0 42px rgba(255, 83, 205, 0.16),
+    0 0 0 1px rgba(255, 255, 255, 0.22),
+    0 0 32px rgba(105, 248, 255, 0.38),
+    0 0 68px rgba(255, 89, 202, 0.28);
 }
 
 .hidden-fractal-portal::before {
@@ -1308,13 +1336,33 @@ textarea {
   border: 1px solid rgba(220, 255, 245, 0.42);
   clip-path: polygon(50% 0, 82% 18%, 100% 50%, 82% 82%, 50% 100%, 18% 82%, 0 50%, 18% 18%);
   opacity: 0.24;
+  pointer-events: none;
   animation: portal-hint-pulse 3.8s ease-in-out infinite;
+}
+
+.hidden-fractal-portal::after {
+  position: absolute;
+  inset: -13%;
+  content: "";
+  border: 1px solid rgba(185, 255, 243, 0.2);
+  border-radius: 50%;
+  opacity: 0.24;
+  pointer-events: none;
+  box-shadow:
+    0 0 22px rgba(99, 242, 255, 0.16),
+    inset 0 0 22px rgba(255, 111, 214, 0.11);
+  animation: portal-button-breath 4.6s ease-in-out infinite;
 }
 
 .hidden-fractal-portal svg {
   display: block;
   width: 100%;
   overflow: visible;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  transform-style: preserve-3d;
+  will-change: transform;
+  animation: portal-wireframe-spin 8.5s linear infinite;
 }
 
 .hidden-fractal-portal polygon,
@@ -1327,11 +1375,30 @@ textarea {
 }
 
 .hidden-fractal-portal .portal-core {
+  stroke: rgba(255, 255, 255, 0.88);
   stroke-width: 1.8;
+}
+
+.hidden-fractal-portal .portal-button-ring {
+  stroke: rgba(232, 255, 248, 0.76);
+  stroke-width: 0.85;
+  opacity: 0.64;
+  animation: portal-ring-glitch 2.9s steps(2) infinite;
+}
+
+.hidden-fractal-portal .portal-octa-a {
+  stroke: #6ff9ff;
+  opacity: 0.84;
+}
+
+.hidden-fractal-portal .portal-octa-b {
+  stroke: #b39cff;
+  opacity: 0.78;
 }
 
 .hidden-fractal-portal .portal-inner {
   stroke: #ff8bd8;
+  opacity: 0.9;
 }
 
 .hidden-fractal-portal .portal-fractal {
@@ -1339,8 +1406,15 @@ textarea {
   opacity: 0.65;
 }
 
+.hidden-fractal-portal .portal-sierpinski polygon {
+  stroke: #fff2a8;
+  stroke-width: 0.72;
+  opacity: 0.58;
+  animation: portal-sierpinski-shift 2.4s steps(2) infinite;
+}
+
 .hidden-fractal-portal .portal-facet {
-  opacity: 0.48;
+  opacity: 0.58;
   animation: portal-facet-glitch 1.7s steps(2) infinite;
   animation-delay: var(--fd);
 }
@@ -2540,6 +2614,76 @@ textarea {
   49% {
     opacity: 0.18;
     transform: translateX(5px) skewX(-12deg);
+  }
+}
+
+@keyframes portal-button-breath {
+  0%,
+  100% {
+    opacity: 0.12;
+    transform: scale(0.86);
+  }
+  43% {
+    opacity: 0.38;
+    transform: scale(1.08);
+  }
+  44% {
+    opacity: 0.18;
+    transform: scale(0.94) translateX(-3px);
+  }
+  46% {
+    opacity: 0.34;
+    transform: scale(1.04) translateX(3px);
+  }
+}
+
+@keyframes portal-wireframe-spin {
+  0% {
+    transform: rotateX(58deg) rotateY(0deg) rotateZ(0deg) scale(0.94);
+  }
+  27% {
+    transform: rotateX(67deg) rotateY(96deg) rotateZ(18deg) scale(1.03);
+  }
+  51% {
+    transform: rotateX(54deg) rotateY(188deg) rotateZ(-10deg) scale(0.9);
+  }
+  73% {
+    transform: rotateX(63deg) rotateY(282deg) rotateZ(24deg) scale(1.07);
+  }
+  100% {
+    transform: rotateX(58deg) rotateY(360deg) rotateZ(0deg) scale(0.94);
+  }
+}
+
+@keyframes portal-ring-glitch {
+  0%,
+  100% {
+    opacity: 0.42;
+    stroke-dasharray: 2 4 9 3;
+  }
+  35% {
+    opacity: 0.88;
+    stroke-dasharray: 12 2 3 5;
+  }
+  36% {
+    opacity: 0.22;
+    transform: translateX(2px) skewX(8deg);
+  }
+}
+
+@keyframes portal-sierpinski-shift {
+  0%,
+  100% {
+    opacity: 0.32;
+    transform: translate(0, 0);
+  }
+  42% {
+    opacity: 0.72;
+    transform: translate(0.5px, -0.5px);
+  }
+  43% {
+    opacity: 0.18;
+    transform: translate(-1px, 1px) skewX(-7deg);
   }
 }
 
