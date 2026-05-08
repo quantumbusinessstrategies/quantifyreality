@@ -87,6 +87,45 @@ const satelliteLinks = [
   { label: 'quantumreality.tech', href: 'https://quantumreality.tech' },
 ];
 
+const porkbunMarketplaceHref = 'https://porkbun.com/products/marketplace';
+
+const domainSaleLinks = [
+  { domain: 'quantifyreality.xyz', signal: 'mirror-domain' },
+  { domain: 'quantumcomputationalai.xyz', signal: 'compute-ai' },
+  { domain: 'quantumaicomputing.tech', signal: 'compute-ai' },
+  { domain: 'quantifycomputational.com', signal: 'quantify-compute' },
+  { domain: 'quantifycomputingai.com', signal: 'quantify-compute' },
+  { domain: 'quantifycomputingai.xyz', signal: 'quantify-compute' },
+  { domain: 'quantifycomputation.com', signal: 'computation' },
+  { domain: 'aiqubitcoin.com', signal: 'bitcoin-ai' },
+  { domain: 'aiqubitcoin.xyz', signal: 'bitcoin-ai' },
+  { domain: 'qubitcoinai.com', signal: 'bitcoin-ai' },
+  { domain: 'qubitlocker.xyz', signal: 'qubit-locker' },
+  { domain: 'qubitlocker.io', signal: 'qubit-locker' },
+  { domain: 'qubitlockerai.com', signal: 'qubit-locker-ai' },
+  { domain: 'qubitlockerai.xyz', signal: 'qubit-locker-ai' },
+  { domain: 'riskforgeai.lol', signal: 'risk-forge' },
+  { domain: 'riskforgeai.xyz', signal: 'risk-forge' },
+  { domain: 'quantifybrokerage.com', price: '$4,500', signal: 'brokerage' },
+  { domain: 'quantifybrokerage.exchange', price: '$1,010', signal: 'brokerage' },
+  { domain: 'quantify.exchange', signal: 'exchange' },
+  { domain: 'quantify.financial', signal: 'financial' },
+  { domain: 'quantumgains.online', signal: 'gains' },
+  { domain: 'quantumaiguidance.xyz', signal: 'ai-guidance' },
+  { domain: 'quantumaireality.xyz', signal: 'ai-reality' },
+  { domain: 'quantumbusinessai.xyz', signal: 'business-ai' },
+  { domain: 'quantumanalytical.xyz', signal: 'analytics' },
+  { domain: 'quantumgains.xyz', signal: 'gains' },
+  { domain: 'quantumfinancial.xyz', signal: 'financial' },
+  { domain: 'quantumbrokerage.xyz', signal: 'brokerage' },
+  { domain: 'quantifybrokerage.xyz', signal: 'brokerage' },
+  { domain: 'quantumaiconsulting.xyz', signal: 'ai-consulting' },
+].map((item) => ({
+  ...item,
+  href: `https://${item.domain}`,
+  buyHref: porkbunMarketplaceHref,
+}));
+
 function createTitleBlockFragments() {
   return Array.from({ length: 22 }, (_, index) => ({
     id: `${index}-${Math.random()}`,
@@ -1726,16 +1765,39 @@ function HiddenFractalPortal({ onOpen }) {
     >
       <svg viewBox="0 0 100 100" aria-hidden="true">
         <polygon className="portal-button-ring" points="50,0 88,14 100,50 88,86 50,100 12,86 0,50 12,14" />
+        <g className="portal-ghost-boundaries">
+          <polygon className="portal-ghost-boundary portal-ghost-boundary-a" points="50,-4 94,18 94,82 50,104 6,82 6,18" />
+          <polygon className="portal-ghost-boundary portal-ghost-boundary-b" points="50,4 96,50 50,96 4,50" />
+          <path className="portal-ghost-boundary portal-ghost-boundary-c" d="M50 1L88 27L78 92L22 92L12 27Z" />
+        </g>
         <polygon className="portal-core" points="50,5 84,25 84,75 50,95 16,75 16,25" />
         <polygon className="portal-octa-a" points="50,5 84,50 50,95 16,50" />
         <polygon className="portal-octa-b" points="16,25 84,25 84,75 16,75" />
         <polygon className="portal-inner" points="50,24 68,38 62,66 38,66 32,38" />
         <path className="portal-fractal" d="M50 5L50 95M16 25L84 75M84 25L16 75M16 50H84M32 38L68 38M38 66L62 66M50 24L38 66M50 24L62 66" />
+        <g className="portal-electron-field">
+          <ellipse className="portal-electron-orbit portal-electron-orbit-a" cx="50" cy="50" rx="34" ry="9" />
+          <ellipse className="portal-electron-orbit portal-electron-orbit-b" cx="50" cy="50" rx="34" ry="9" />
+          <ellipse className="portal-electron-orbit portal-electron-orbit-c" cx="50" cy="50" rx="34" ry="9" />
+          {Array.from({ length: 6 }, (_, index) => (
+            <circle
+              key={index}
+              className={`portal-electron portal-electron-${index}`}
+              cx="50"
+              cy="50"
+              r="2.25"
+              style={{ '--ed': `${index * -0.31}s` }}
+            />
+          ))}
+        </g>
         <g className="portal-sierpinski">
           {triangles.map((triangle, index) => (
             <polygon key={index} points={triangle.points} />
           ))}
         </g>
+        <text className="portal-cent-mark" x="50" y="56" textAnchor="middle" aria-hidden="true">
+          ¢
+        </text>
         {facets.map((facet) => (
           <line
             key={facet.id}
@@ -1752,7 +1814,7 @@ function HiddenFractalPortal({ onOpen }) {
   );
 }
 
-function LinksArchive({ open, onClose }) {
+function LinksArchive({ open, onClose, onOpenBranding }) {
   const [phase, setPhase] = useState('closed');
   const [typedCount, setTypedCount] = useState(0);
   const bootLines = useMemo(
@@ -1828,6 +1890,97 @@ function LinksArchive({ open, onClose }) {
           </a>
         ))}
       </div>
+      <button className="consumeristic-branding-trigger" type="button" onClick={onOpenBranding}>
+        <code>C:\SATELLITE\SALE_INDEX&gt;</code>
+        <span>CONSUMERISTIC_BRANDING</span>
+        <code>:: {pick(binaryBursts, visibleLinks.length)}</code>
+      </button>
+      <button className="requantify-button" type="button" onClick={onClose}>
+        REQUANTIFY
+      </button>
+    </section>
+  );
+}
+
+function DomainSalesArchive({ open, onClose }) {
+  const [phase, setPhase] = useState('closed');
+  const [typedCount, setTypedCount] = useState(0);
+  const bootLines = useMemo(
+    () => [
+      'C:\\QR\\MARKET> OPEN CONSUMERISTIC_BRANDING',
+      'PULLING DOMAIN BONES FROM PORKBUN MARKET CACHE',
+      'PRICE_SIGNAL: VOLUNTARY / OFFER_SIGNAL: HUMAN',
+      'DO NOT WORSHIP THE ASSET. BUY THE NAME. BECOME THE ROUTE.',
+      'RENDERING SALEABLE IDENTITIES...',
+    ],
+    [],
+  );
+
+  useEffect(() => {
+    if (!open) {
+      setPhase('closed');
+      setTypedCount(0);
+      return undefined;
+    }
+
+    const timers = [
+      setTimeout(() => setPhase('cursor'), 0),
+      setTimeout(() => setPhase('typing'), 1350),
+    ];
+
+    let lineTimer;
+    timers.push(
+      setTimeout(() => {
+        let index = 0;
+        lineTimer = setInterval(() => {
+          index += 1;
+          setTypedCount(Math.min(index, domainSaleLinks.length));
+          if (index >= domainSaleLinks.length) {
+            clearInterval(lineTimer);
+            setPhase('open');
+          }
+        }, 120);
+      }, 1650),
+    );
+
+    return () => {
+      timers.forEach((timer) => clearTimeout(timer));
+      clearInterval(lineTimer);
+    };
+  }, [open]);
+
+  const visibleDomains = phase === 'open' ? domainSaleLinks : domainSaleLinks.slice(0, typedCount);
+
+  return (
+    <section className={`domain-sales-archive links-archive ${open ? 'is-open' : ''} is-${phase}`} aria-hidden={!open}>
+      <div className="links-cursor" aria-hidden="true" />
+      <div className="links-codefall domain-sales-codefall" aria-hidden="true">
+        {bootLines.map((line, index) => (
+          <span key={line} style={{ '--ld': `${index * 0.11}s` }}>{line}</span>
+        ))}
+      </div>
+      <div className="domain-market-list">
+        {visibleDomains.map((item, index) => (
+          <article
+            key={item.domain}
+            className="domain-sale-row"
+            style={{
+              '--li': index,
+              '--ld': `${0.14 + index * 0.035}s`,
+            }}
+          >
+            <code>C:\CONSUMER\{String(index).padStart(2, '0')}&gt; expose_domain(</code>
+            <a className="domain-sale-name" href={item.href} target="_blank" rel="noreferrer">
+              {item.domain}
+            </a>
+            <code>) :: {item.price ? `ASK ${item.price}` : 'PORKBUN_MARKET'}</code>
+            <a className="domain-sale-buy" href={item.buyHref} target="_blank" rel="noreferrer">
+              BUY_SIGNAL
+            </a>
+            <code>{item.signal} // {pick(binaryBursts, index)}</code>
+          </article>
+        ))}
+      </div>
       <button className="requantify-button" type="button" onClick={onClose}>
         REQUANTIFY
       </button>
@@ -1839,6 +1992,7 @@ export function App() {
   const [terminalValue, setTerminalValue] = useState('');
   const [manualEvent, setManualEvent] = useState(null);
   const [linksOpen, setLinksOpen] = useState(false);
+  const [brandingOpen, setBrandingOpen] = useState(false);
 
   const handleExecute = useCallback(() => {
     setManualEvent({
@@ -1862,7 +2016,15 @@ export function App() {
       <SystemResetEvent manualEvent={manualEvent} />
       <PointerField />
       <HiddenFractalPortal onOpen={() => setLinksOpen(true)} />
-      <LinksArchive open={linksOpen} onClose={() => setLinksOpen(false)} />
+      <LinksArchive
+        open={linksOpen}
+        onClose={() => setLinksOpen(false)}
+        onOpenBranding={() => {
+          setLinksOpen(false);
+          setBrandingOpen(true);
+        }}
+      />
+      <DomainSalesArchive open={brandingOpen} onClose={() => setBrandingOpen(false)} />
       <div className="bio-sigil" aria-hidden="true" />
       <div className="glitch-storm" aria-hidden="true" />
       <div className="scanlines" aria-hidden="true" />
