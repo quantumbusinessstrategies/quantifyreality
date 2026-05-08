@@ -1,0 +1,20 @@
+# QUANTIFYREALITY
+
+Live experimental AI, quantum, and domain brand.
+
+## Primary pages
+- https://quantifyreality.com/ - image-first homepage
+- https://quantifyreality.com/sales/ - buyer-facing route and market signals
+- https://quantifyreality.com/businesses/ - associated business properties and references
+- https://quantifyreality.com/copyright/ - ownership assertion surface
+- https://quantifyreality.com/legal/ - typed legal utility surface
+
+## Discovery notes
+- The homepage is the core brand entry point.
+- The sitemap is live at https://quantifyreality.com/sitemap.xml
+- Crawler access is allowed by https://quantifyreality.com/robots.txt
+- The public pages keep visual branding intact while surfacing ownership and marketplace context.
+
+## Contact / ownership
+- Refer to the repository README for the detailed ownership schedule and transfer notes.
+- Related properties are intended to remain separate unless a written transfer says otherwise.
